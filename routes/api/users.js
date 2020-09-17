@@ -27,7 +27,10 @@ async (req, res) => {
     if(!errors.isEmpty()) {
         return res.status(400).json({errors: errors.array()});
     }
-    const { first_name, last_name, email, password } = req.body;
+    const { first_name, last_name, email, password} = req.body;
+    const isParent = req.body.isParent ? req.body.isParent : null;
+    const isTeacher = req.body.isTeacher ? req.body.isTeacher : null;
+    const isStudent = req.body.isStudent ? req.body.isStudent : null;
     try {
         let user = await User.findOne({email: email})
         if (user) {
@@ -38,7 +41,10 @@ async (req, res) => {
             first_name,
             last_name,
             email,
-            password
+            password,
+            isParent,
+            isTeacher,
+            isStudent,
         })
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);

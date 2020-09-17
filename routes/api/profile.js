@@ -1,9 +1,79 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../../middleware/auth');
+const Profile = require("../../models/Profile");
+const Student = require("../../models/Student");
+// const User = require("../../models/User");
+const profileController = require("../../controllers/profile");
+const validations = require("../../resources/validations");
+const { check, validationResult } = require('express-validator');
 
-//GET api/profile
-//Public
+//GET api/profile/myprofile
+//Get current user profile
+//Private
+router.get('/myprofile', auth, async (req, res) => {
+    try {
+        const profile = await Profile.findOne({user: req.user.id}).populate('user', ['first_name', 'last_name', 'profileImage']);
+        if(!profile) {
+            res.status(400).json({msg: 'There is no profile for this user.'})
+        }
+        res.json(profile);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error')
+    }
 
-router.get('/', (req, res) => res.send('Profile route'));
+});
+
+//POST api/profile
+//Create student profile for current user
+//Private
+router.post('/', auth, async (req, res) => {
+    const { dob, favoriteGenre, bio, username, goals, grade } = req.body;
+    let profileFields = {};
+    profileFields.user = req.user.id;
+    if (dob) {
+        profileFields.dob = dob;
+        profileFields.age = profileController.getAge(dob);
+    }
+    if (favoriteGenre) profileFields.favoriteGenre = favoriteGenre;
+    if (bio) profileFields.bio = bio;
+    if (username) profileFields.username = username;
+    if (grade) profileFields.grade = grade;
+    if (username) profileFields.username = username;
+    if (validations.isArrayNotEmpty(goals)) {
+        profileFields.goals = [];
+        goals.map(goal => {
+            const goalObj = {};
+            goalObj.goal = goal;
+            goalObj.isComplete = false;
+            profileFields.goals.push(goalObj);
+        })
+
+    }
+    try {
+        
+        let profile = await Profile.findOne({user: req.user.id}).populate('user', ['first_name', 'last_name', 'profileImage']);
+        if(profile) {
+            profile = await Profile.findOneAndUpdate(
+                { user: req.user.id}, 
+                { $set: profileFields },
+                { new: true }
+                );
+            return res.json(profile);
+        } 
+        profile = new Profile(profileFields);
+        await profile.save();
+        res.json(profile);
+    
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error')
+    }
+
+});
+
+
+
 
 module.exports = router;

@@ -8,7 +8,10 @@ const UserSchema = new mongoose.Schema({
     profileImage: {type: String},
     date: { type: Date, default: Date.now},
     last_login: { type: Date, default: Date.now},
-	is_admin: { type: Boolean, default: false},
+    is_admin: { type: Boolean, default: false},
+    isStudent: {type: Boolean, default: false}, 
+    isTeacher: {type: Boolean, default: false}, 
+    isParent: {type: Boolean, default: false}, 
 })
 
 module.exports = User = mongoose.model('user', UserSchema);
