@@ -74,6 +74,23 @@ router.post('/', auth, async (req, res) => {
 });
 
 
+//GET api/profile/students
+//Get all strudent profiles
+//Private
+
+router.get('/students', auth, async (req, res) => {
+    try {
+        const profiles = await Profile.find().populate('user', ['first_name', 'last_name', 'email', 'profile_image', 'isStudent'])
+        const studentProfiles = profiles.filter(profile => {
+            return !profile.isStudent;
+        })
+        res.json(studentProfiles);
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+})
+
 
 
 module.exports = router;
