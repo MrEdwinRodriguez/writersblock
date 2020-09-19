@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const Profile = require("../../models/Profile");
-const Student = require("../../models/Student");
 // const User = require("../../models/User");
 const profileController = require("../../controllers/profile");
-const validations = require("../../resources/validations");
+const validations = require("../../helpers/validations");
 const { check, validationResult } = require('express-validator');
 
 //GET api/profile/myprofile
@@ -74,6 +73,81 @@ router.post('/', auth, async (req, res) => {
 });
 
 
+//GET api/profile/students
+//Get all strudent profiles
+//Private
 
+router.get('/students', auth, async (req, res) => {
+    try {
+        const profiles = await Profile.find().populate('user', ['first_name', 'last_name', 'email', 'profile_image', 'isStudent'])
+        const studentProfiles = profiles.filter(profile => {
+            return profile.user.isStudent;
+        })
+        res.json(studentProfiles);
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+})
+
+//GET api/profile/student/:id
+//get one student profile
+//Private
+router.get('/student/:id', auth, async (req, res) => {
+    const studentId = req.params.id;
+    try {
+        const profile = await Profile.findOne({_id: studentId}).populate('user', ['first_name', 'last_name', 'email', 'profile_image', 'isStudent'])
+        res.status(200).json(profile); 
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error') 
+    }
+})
+
+//GET api/profile/teachers
+//Get all teacher profiles
+//Private
+router.get('/teachers', auth, async (req, res) => {
+    try {
+        const profiles = await Profile.find().populate('user', ['first_name', 'last_name', 'email', 'profile_image', 'isStudent'])
+        const teacherProfiles = profiles.filter(profile => {
+            return profile.user.isTeacher;
+        })
+        res.json(teacherProfiles);
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+})
+
+//GET api/profile/teacher/:id
+//get one teacher profile
+//Private
+router.get('/teacher/:id', auth, async (req, res) => {
+    const teacherId = req.params.id;
+    try {
+        const profile = await Profile.findOne({_id: teacherId}).populate('user', ['first_name', 'last_name', 'email', 'profile_image', 'isStudent'])
+        res.status(200).json(profile); 
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error') 
+    }
+})
+
+//DELETE api/profile
+//DELETE profile of any type
+//Private
+router.delete('/', auth, async (req, res) => {
+   try {
+        await Profile.findOneAndRemove({user: req.user.id});
+        await User.findOneAndRemove({_id: req.user.id});
+        res.status(500).send('Profile has been deleted'); 
+   } catch (err) {
+       console.error(err.message);
+       res.status(500).send('Server Error')
+       
+   }
+
+})
 
 module.exports = router;
