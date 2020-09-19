@@ -40,7 +40,33 @@ router.post('/', [auth,
         res.status(500).send('Server Error')
         
     }
-})
+});
+
+//Put api/writing/:id
+//writer updates current writing
+//private
+router.put('/:id', auth, async (req, res) => {
+    try {
+        let writing = await Writing.findOne({_id: req.params.id}).populate('user', ['first_name', 'last_name', 'profileImage']);
+        if (!writing) {
+            return res.status(400).json({errors: [{msg: 'No writing found'}]});
+        }
+        writingFields = writing;
+        writingFields.text = req.body.text;
+        writingFields.title = req.body.title; 
+        writingFields.updated = new Date();
+        writing = await Writing.findOneAndUpdate(
+            { _id: req.params.id}, 
+            { $set: writingFields },
+            { new: true }
+            );
+        return res.json(writing);
+        
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");   
+    }
+});
 
 
 module.exports = router;
