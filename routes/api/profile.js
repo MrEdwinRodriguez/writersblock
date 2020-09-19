@@ -104,6 +104,36 @@ router.get('/student/:id', auth, async (req, res) => {
     }
 })
 
+//GET api/profile/teachers
+//Get all teacher profiles
+//Private
+router.get('/teachers', auth, async (req, res) => {
+    try {
+        const profiles = await Profile.find().populate('user', ['first_name', 'last_name', 'email', 'profile_image', 'isStudent'])
+        const teacherProfiles = profiles.filter(profile => {
+            return profile.user.isTeacher;
+        })
+        res.json(teacherProfiles);
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+})
+
+//GET api/profile/teacher/:id
+//get one teacher profile
+//Private
+router.get('/teacher/:id', auth, async (req, res) => {
+    const teacherId = req.params.id;
+    try {
+        const profile = await Profile.findOne({_id: teacherId}).populate('user', ['first_name', 'last_name', 'email', 'profile_image', 'isStudent'])
+        res.status(200).json(profile); 
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error') 
+    }
+})
+
 //DELETE api/profile
 //DELETE profile of any type
 //Private
