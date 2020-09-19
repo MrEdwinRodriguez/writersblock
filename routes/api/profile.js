@@ -90,6 +90,19 @@ router.get('/students', auth, async (req, res) => {
     }
 })
 
+//GET api/profile/student/:id
+//get one student profile
+//Private
+router.get('/student/:id', auth, async (req, res) => {
+    const studentId = req.params.id;
+    try {
+        const profile = await Profile.findOne({_id: studentId}).populate('user', ['first_name', 'last_name', 'email', 'profile_image', 'isStudent'])
+        res.status(200).json(profile); 
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).status('Server Error') 
+    }
+})
 
 
 module.exports = router;
