@@ -81,7 +81,7 @@ router.get('/students', auth, async (req, res) => {
     try {
         const profiles = await Profile.find().populate('user', ['first_name', 'last_name', 'email', 'profile_image', 'isStudent'])
         const studentProfiles = profiles.filter(profile => {
-            return !profile.isStudent;
+            return profile.user.isStudent;
         })
         res.json(studentProfiles);
     } catch (err) {
@@ -100,9 +100,24 @@ router.get('/student/:id', auth, async (req, res) => {
         res.status(200).json(profile); 
     } catch (err) {
         console.error(err.message);
-        res.status(500).status('Server Error') 
+        res.status(500).send('Server Error') 
     }
 })
 
+//DELETE api/profile
+//DELETE profile of any type
+//Private
+router.delete('/', auth, async (req, res) => {
+   try {
+        await Profile.findOneAndRemove({user: req.user.id});
+        await User.findOneAndRemove({_id: req.user.id});
+        res.status(500).send('Profile has been deleted'); 
+   } catch (err) {
+       console.error(err.message);
+       res.status(500).send('Server Error')
+       
+   }
+
+})
 
 module.exports = router;

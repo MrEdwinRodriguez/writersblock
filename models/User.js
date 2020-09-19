@@ -9,6 +9,7 @@ const UserSchema = new mongoose.Schema({
     date: { type: Date, default: Date.now},
     last_login: { type: Date, default: Date.now},
     is_admin: { type: Boolean, default: false},
+    isActive: { type: Boolean, default: true},
     isStudent: {type: Boolean, default: false}, 
     isTeacher: {type: Boolean, default: false}, 
     isParent: {type: Boolean, default: false}, 
