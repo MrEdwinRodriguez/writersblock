@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const Profile = require("../../models/Profile");
-const Student = require("../../models/Student");
 // const User = require("../../models/User");
 const profileController = require("../../controllers/profile");
-const validations = require("../../resources/validations");
+const validations = require("../../helpers/validations");
 const { check, validationResult } = require('express-validator');
 
 //GET api/profile/myprofile
