@@ -62,4 +62,35 @@ router.post('/writing/:id', [auth,
     })
     
     
+ //GET api/feedback/writing/:id
+//get all feedback for writing
+//private
+router.get('/writing/:writingId', auth, async (req, res) => {
+    try {
+        const user = await User.findOne({_id: req.user.id});
+        if(!user) res.status(400).json({errors: [{msg: "No User found."}]});
+        const feedback = await Feedback.find({parent_writing: req.params.writingId})
+        res.status(200).json(feedback);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+})
+
+ //GET api/feedback/:id
+//get one feedback for writing
+//private
+router.get('/:feedbackId', auth, async (req, res) => {
+    try {
+        const user = await User.findOne({_id: req.user.id});
+        if(!user) res.status(400).json({errors: [{msg: "No User found."}]});
+        const feedback = await Feedback.findOne({_id: req.params.feedbackId})
+        res.status(200).json(feedback);  
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+        
+    }
+})
+
     module.exports = router;
