@@ -3,7 +3,7 @@ const router = express.Router();
 const auth = require('../../middleware/auth');
 const Profile = require("../../models/Profile");
 // const User = require("../../models/User");
-const profileController = require("../../controllers/profile");
+const utils = require("../../helpers/utils");
 const validations = require("../../helpers/validations");
 const { check, validationResult } = require('express-validator');
 
@@ -33,7 +33,7 @@ router.post('/', auth, async (req, res) => {
     profileFields.user = req.user.id;
     if (dob) {
         profileFields.dob = dob;
-        profileFields.age = profileController.getAge(dob);
+        profileFields.age = utils.getAge(dob);
     }
     if (favoriteGenre) profileFields.favoriteGenre = favoriteGenre;
     if (bio) profileFields.bio = bio;
