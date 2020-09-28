@@ -14,6 +14,8 @@ const ProfileSchema = new mongoose.Schema({
     dob: {type: Date},
     bio: {type: String},
     favoriteGenre: {type: [String]},
+    class: [{type: mongoose.Schema.Types.ObjectId, ref: 'user'}],
+    invitedStudent: [{type: mongoose.Schema.Types.ObjectId, ref: 'user'}]
 });
 
 module.exports = Profile = mongoose.model('profile', ProfileSchema)
