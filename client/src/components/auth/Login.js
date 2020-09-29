@@ -24,8 +24,8 @@ const Login = () => {
     return (
         <Fragment>
             <div className='col-md-8 m-auto'>
-                <h1 className="large text-primary">Login </h1>
-                    <p className="lead"><FontAwesomeIcon icon={faUser} /> Sign Into Your Account</p>
+                <h1 className="large text-light">Login </h1>
+                    <p className="lead text-light"><FontAwesomeIcon icon={faUser} /> Sign Into Your Account</p>
                     <form className="form" onSubmit={e => onSubmit(e)}>
                         <div className="form-group">
                         <input 
@@ -46,7 +46,7 @@ const Login = () => {
                         </div>
                         <input type="submit" className="btn btn-primary" value="Login" />
                     </form>
-                    <p className="my-1">
+                    <p className="my-1 text-light">
                         Don't have an account? <Link to="/register">Sign Up</Link>
                     </p>
             </div>

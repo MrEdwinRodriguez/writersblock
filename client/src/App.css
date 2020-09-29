@@ -1,8 +1,8 @@
 /* Global Styles */
 :root {
-  --primary-color: #17a2b8;
-  --dark-color: #343a40;
-  --light-color: #f4f4f4;
+  --primary-color: #950740;
+  --dark-color: #1A1A1D;
+  --light-color: #4E4E50;
   --danger-color: #dc3545;
   --success-color: #28a745;
 }
@@ -17,7 +17,7 @@ body {
   font-family: 'Raleway', sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-  background-color: #fff;
+  background-color: var(--light-color);
   color: #333;
 }
 
@@ -67,7 +67,7 @@ img {
 }
 
 .text-primary {
-  color: var(--primary-color);
+  color: var(--primary-color) !important;
 }
 
 .text-dark {
@@ -176,7 +176,7 @@ img {
 .bg-dark,
 .badge-dark,
 .alert-dark {
-  background: var(--dark-color);
+  background: var(--dark-color) !important;
   color: #fff;
 }
 

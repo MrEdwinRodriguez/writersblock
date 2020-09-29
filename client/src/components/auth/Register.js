@@ -33,8 +33,8 @@ const Register = ({setAlert}) => {
     return (
         <Fragment>
             <div className='col-md-8 m-auto'>
-                <h1 className="large text-primary">Sign Up</h1>
-                    <p className="lead"><FontAwesomeIcon icon={faUser} /> Create Your Account</p>
+                <h1 className="large text-light">Sign Up</h1>
+                    <p className="lead text-light"><FontAwesomeIcon icon={faUser} /> Create Your Account</p>
                     <form className="form" onSubmit={e => onSubmit(e)}>
                         <div className="form-group">
                         <input type="text" placeholder="First Name" name="first_name" value={first_name} onChange={e => onChange(e)} required />
@@ -67,7 +67,7 @@ const Register = ({setAlert}) => {
                         </div>
                         <input type="submit" className="btn btn-primary" value="Register" />
                     </form>
-                    <p className="my-1">
+                    <p className="my-1 text-light">
                         Already have an account? <Link to="/login">Sign In</Link>
                     </p>
             </div>
