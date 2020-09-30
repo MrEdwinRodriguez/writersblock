@@ -1,14 +1,15 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, Profiler} from 'react';
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
+import { register } from '../../actions/authActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types'
 
 
-const Register = ({setAlert}) => {
+const Register = ({setAlert, register, isAuthenticated}) => {
     const [formData, setFormData] = useState({
         first_name: "",
         last_name: "",
@@ -26,21 +27,25 @@ const Register = ({setAlert}) => {
         if(password !== password2) {
             setAlert('Passwords do not match', 'danger');
         } else {
-            console.log('success')
+            console.log(first_name, last_name, email, password, password2)
+            register({first_name, last_name, email, password, password2 })
         }
+    }
+    if(isAuthenticated) {
+        return <Redirect to="/dashboard" />
     }
 
     return (
         <Fragment>
             <div className='col-md-8 m-auto'>
-                <h1 className="large text-primary">Sign Up</h1>
-                    <p className="lead"><FontAwesomeIcon icon={faUser} /> Create Your Account</p>
+                <h1 className="large text-light">Sign Up</h1>
+                    <p className="lead text-light"><FontAwesomeIcon icon={faUser} /> Create Your Account</p>
                     <form className="form" onSubmit={e => onSubmit(e)}>
                         <div className="form-group">
-                        <input type="text" placeholder="First Name" name="first_name" value={first_name} onChange={e => onChange(e)} required />
+                        <input type="text" placeholder="First Name" name="first_name" value={first_name} onChange={e => onChange(e)}  />
                         </div>
                         <div className="form-group">
-                        <input type="text" placeholder="Last Name" name="last_name" value={last_name} onChange={e => onChange(e)} required />
+                        <input type="text" placeholder="Last Name" name="last_name" value={last_name} onChange={e => onChange(e)}  />
                         </div>
                         <div className="form-group">
                         <input type="email" placeholder="Email Address" name="email" value={email} onChange={e => onChange(e)}/>
@@ -67,7 +72,7 @@ const Register = ({setAlert}) => {
                         </div>
                         <input type="submit" className="btn btn-primary" value="Register" />
                     </form>
-                    <p className="my-1">
+                    <p className="my-1 text-light">
                         Already have an account? <Link to="/login">Sign In</Link>
                     </p>
             </div>
@@ -77,5 +82,12 @@ const Register = ({setAlert}) => {
 
 Register.propType = {
     setAlert: PropTypes.func.isRequired,
+    register: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool,
+    
 };
-export default connect(null, {setAlert})(Register);
+
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+}) 
+export default connect(mapStateToProps, {setAlert, register})(Register);
