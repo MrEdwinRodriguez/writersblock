@@ -9,10 +9,9 @@ import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 export const Navbar = ({ auth: {isAuthenticated, loading}, logout}) => {
   const authLinks = (
     <ul>
-      <a onClick={logout} href='/login'><FontAwesomeIcon icon={faSignOutAlt} /> <span className='hide-sm'>Lougout</span></a>
+      <a onClick={logout} href='#!'><FontAwesomeIcon icon={faSignOutAlt} /> <span className='hide-sm'>Lougout</span></a>
     </ul>
   );
-
   const guestLinks = (
     <ul>
       <li><Link to="/register">Register</Link></li>
