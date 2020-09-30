@@ -1,6 +1,7 @@
 /* Global Styles */
 :root {
   --primary-color: #950740;
+  --secondary-color: #6F2232;
   --dark-color: #1A1A1D;
   --light-color: #4E4E50;
   --danger-color: #dc3545;
@@ -68,6 +69,14 @@ img {
 
 .text-primary {
   color: var(--primary-color) !important;
+}
+
+.text-secondary {
+  color: var(--secondary-color) !important;
+}
+
+.brand {
+  font-family: Snell Roundhand cursive !important;
 }
 
 .text-dark {
@@ -163,6 +172,15 @@ img {
   background: var(--primary-color);
   color: #fff;
 }
+
+.btn-secondary,
+.bg-secondary,
+.badge-secondary,
+.alert-secondary {
+  background: var(--secondary-color);
+  color: #fff;
+}
+
 
 .btn-light,
 .bg-light,
@@ -321,6 +339,7 @@ button {
   padding: 0.45rem;
   margin: 0 0.25rem;
 }
+
 
 .navbar a:hover {
   color: var(--primary-color);
