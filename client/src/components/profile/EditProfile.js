@@ -1,29 +1,51 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createProfile } from '../../actions/profileActions';
+import { createProfile, getCurrentProfile } from '../../actions/profileActions';
+import { FormatDate } from '../..//utils/formatHelper'
 
 
-const CreateProfile = ({ createProfile, history }) => {
+const EditProfile = ({ profile: {profile, loading }, createProfile, getCurrentProfile, history }) => {
     const [formData, setFormData] = useState({
         dob: "",
         bio: "",
-        favoriteGenres: "",
+        favoriteGenre: "",
     })
-    const { dob, bio, favoriteGenres } = formData;
+
+    useEffect(() => {
+        let formatedDate = null;
+        let genres = null;
+        getCurrentProfile();
+        if( profile && profile.dob) {
+            const dobDate = new Date(profile.dob)
+            formatedDate = FormatDate(dobDate)
+        }
+        console.log(profile)
+        if(profile && profile.favoriteGenre) {
+            genres = profile.favoriteGenre.toString()
+        }
+        console.log(genres)
+        setFormData({
+            dob: loading || !profile || !profile.dob ? "" : formatedDate,
+            bio: loading || !profile || !profile.bio ? "" : profile.bio,
+            favoriteGenre: loading || !profile || !profile.favoriteGenre ? "" : genres,
+        })
+    }, [loading])
+
+    const { dob, bio, favoriteGenre } = formData;
 
     const onChange = e => setFormData({...formData, [e.target.name]: e.target.value });
 
     const onSubmit = e => {
         e.preventDefault();
-        createProfile(formData, history);
+        createProfile(formData, history, true);
     }
 
     return (
         <Fragment>
-             <h1 className="large text-light">
-                Create Your Profile
+             <h1 className="large text-dark">
+                Edit Your Profile
             </h1>
             <p className="lead text-light">
                 <i className="fas fa-user"></i> Let's get some information to make your
@@ -37,9 +59,9 @@ const CreateProfile = ({ createProfile, history }) => {
                     >Could be your own company or one you work for
                 </small>
                 </div>
-                <div class="form-group">
-                <input type="text" placeholder="Favorite Genres" name="favoriteGenres" value={favoriteGenres} onChange={e => onChange(e)}/>
-                <small class="form-text text-light"
+                <div className="form-group">
+                <input type="text" placeholder="Favorite Genres" name="favoriteGenre" value={favoriteGenre} onChange={e => onChange(e)}/>
+                <small className="form-text text-light"
                     >Please use comma separated values (eg.
                     Mystery, Crime, Children's, Autobiography)</small>
                 </div>
@@ -55,9 +77,14 @@ const CreateProfile = ({ createProfile, history }) => {
     );
 };
 
-CreateProfile.propTypes = {
+EditProfile.propTypes = {
+    profile: PropTypes.object.isRequired,
     createProfile: PropTypes.func.isRequired,
+    getCurrentProfile: PropTypes.func.isRequired,
 }
 
+const mapStateToProps = state => ({
+    profile: state.profile
+})
 
-export default connect(null, {createProfile})(withRouter(CreateProfile));
+export default connect(mapStateToProps, {createProfile, getCurrentProfile})(withRouter(EditProfile));
