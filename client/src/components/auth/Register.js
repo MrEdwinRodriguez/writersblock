@@ -38,8 +38,8 @@ const Register = ({setAlert, register, isAuthenticated}) => {
     return (
         <Fragment>
             <div className='col-md-8 m-auto'>
-                <h1 className="large text-light">Sign Up</h1>
-                    <p className="lead text-light"><FontAwesomeIcon icon={faUser} /> Create Your Account</p>
+                <h1 className="large text-dark">Sign Up</h1>
+                    <p className="lead text-dark"><FontAwesomeIcon icon={faUser} /> Create Your Account</p>
                     <form className="form" onSubmit={e => onSubmit(e)}>
                         <div className="form-group">
                         <input type="text" placeholder="First Name" name="first_name" value={first_name} onChange={e => onChange(e)}  />
