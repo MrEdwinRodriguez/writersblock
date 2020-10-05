@@ -30,8 +30,8 @@ const Login = ({login, isAuthenticated}) => {
     return (
         <Fragment>
             <div className='col-md-8 m-auto'>
-                <h1 className="large text-light">Login </h1>
-                    <p className="lead text-light"><FontAwesomeIcon icon={faUser} /> Sign Into Your Account</p>
+                <h1 className="large text-dark">Login </h1>
+                    <p className="lead text-dark"><FontAwesomeIcon icon={faUser} /> Sign Into Your Account</p>
                     <form className="form" onSubmit={e => onSubmit(e)}>
                         <div className="form-group">
                         <input 

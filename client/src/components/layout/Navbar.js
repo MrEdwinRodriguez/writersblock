@@ -4,12 +4,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/authActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faSignOutAlt, faUser, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 export const Navbar = ({ auth: {isAuthenticated, loading}, logout}) => {
   const authLinks = (
     <ul>
-      <a onClick={logout} href='#!'><FontAwesomeIcon icon={faSignOutAlt} /> <span className='hide-sm'>Lougout</span></a>
+      <li><Link to="/edit-profile"><FontAwesomeIcon icon={faEdit} /> <span className='hide-sm'>Edit Profile</span></Link></li>
+      <li><Link to="/dashboard"><FontAwesomeIcon icon={faUser} /> <span className='hide-sm'>Dashboard</span></Link></li>
+      <li><a onClick={logout} href='#!'><FontAwesomeIcon icon={faSignOutAlt} /> <span className='hide-sm'>Lougout</span></a></li>
     </ul>
   );
   const guestLinks = (
@@ -18,11 +20,10 @@ export const Navbar = ({ auth: {isAuthenticated, loading}, logout}) => {
       <li><Link to="/login">Login</Link></li>
     </ul>
   )
-  const navbarBrand = !isAuthenticated ? (<Link to="/"><i className="fas fa-code"></i>Writers Block</Link>) : <Link to="/dashboard"><i className="fas fa-code"></i>Writers Block</Link>
   return (
       <nav className="navbar bg-dark">
       <h1>
-        {navbarBrand}
+        <Link to="/"><i className="fas fa-code"></i>Writers Block</Link>
       </h1>
       { !loading && (<Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>)}
     </nav>
