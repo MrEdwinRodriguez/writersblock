@@ -6,13 +6,13 @@ import { getCurrentProfile } from '../../actions/profileActions';
 import Spinner from '../common/Spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBookOpen } from '@fortawesome/free-solid-svg-icons';
+import Books from './Books';
 
 const Dashboard = ({ getCurrentProfile, auth: {user} , profile: {profile, loading}}) => {
     useEffect(() => {
         getCurrentProfile();
     }, [])
     
-
     return loading && profile == null ? <Spinner /> : 
     <Fragment>
         <h1 className='large text-primary '>Dashboard</h1>
@@ -26,6 +26,7 @@ const Dashboard = ({ getCurrentProfile, auth: {user} , profile: {profile, loadin
            </div>
            </Fragment>}
         <h3 className='large text-dark mt10'><FontAwesomeIcon icon={faBookOpen} /> My Notebooks</h3>
+        <Books />
     </Fragment>
 }
 

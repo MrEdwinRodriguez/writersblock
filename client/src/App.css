@@ -325,7 +325,7 @@ button {
 }
 
 .table th {
-  background: var(--light-color);
+  /* background: var(--light-color); */
 }
 
 /* Navbar */
@@ -379,6 +379,11 @@ button {
   justify-content: center;
   text-align: center;
 }
+
+.dashboard-section {
+  margin-top: 10px !important;
+}
+
 
 /* Profiles Page */
 .profile {
