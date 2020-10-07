@@ -8,6 +8,7 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Dashboard from './components/dashboard/Dashboard';
 import CreateProfile from './components/profile/CreateProfile';
+import CreateBook from './components/new-writing/CreateBook';
 import EditProfile from './components/profile/EditProfile';
 import PrivateRoute from './components/routing/PrivateRoute';
 //redux
@@ -40,6 +41,7 @@ const App = () => {
             <PrivateRoute exact path="/dashboard" component={ Dashboard }/>
             <PrivateRoute exact path="/create-profile" component={ CreateProfile}/>
             <PrivateRoute exact path="/edit-profile" component={ EditProfile}/>
+            <PrivateRoute exact path="/new-book" component={ CreateBook}/>
           </Switch>
         </section>
       </Fragment>
