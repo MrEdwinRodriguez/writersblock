@@ -177,6 +177,13 @@ img {
   color: #333;
 }
 
+.btn-link-transparent {
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+} 
+
 .btn-primary,
 .bg-primary,
 .badge-primary,
