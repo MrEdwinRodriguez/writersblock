@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../../common/Spinner';
 import AddCharacter from './AddCharacter';
+import AddSetting from './AddSetting';
 import ShowCharacters from './ShowCharacters';
+import ShowSettings from './ShowSettings';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
@@ -17,7 +19,7 @@ const CreateBook = ({ createProfile, history }) => {
         outline: "",
         genre: "",
         characters: [],
-        setting: [],
+        settings: [],
         goals: [],
         deadline:"",
         notes: [],
@@ -35,7 +37,7 @@ const CreateBook = ({ createProfile, history }) => {
         addChapters: false, 
     })
 
-    const { idea, title, outline, genre, characters, setting, goals, deadline, notes, chapters, content, addIdea, addTitle, addOutline, addGenre, addCharacters, addSettings, addGoals, addDeadline, addNotes, addChapters  } = formData;
+    const { idea, title, outline, genre, characters, settings, goals, deadline, notes, chapters, content, addIdea, addTitle, addOutline, addGenre, addCharacters, addSettings, addGoals, addDeadline, addNotes, addChapters  } = formData;
 
     const onChangeAdd = e => {
         const boolValue = e.target.value  == "true" ? true : false;
@@ -54,6 +56,13 @@ const CreateBook = ({ createProfile, history }) => {
         setFormData({...formData, [characters]: characters })
     
   }
+
+    const createSetting = (setting) =>  {
+        console.log('adding setting to book', setting)
+        settings.push(setting)
+        setFormData({...formData, [characters]: characters })
+
+    }
     let showIdesInput, showTitleInput, showOutlineInput, showGenreInput, showCharactersInput, showSettingsInput, showGoalsInput, showDeadlinesInput, showNotesInput, showChaptersInput  = <div></div>
     if(addIdea) {
         showIdesInput = (
@@ -105,11 +114,9 @@ const CreateBook = ({ createProfile, history }) => {
     }
     if(addSettings) {
         showSettingsInput = (
-            <Fragment>
-                <div className="form-group form-group-alt">
-                    <input type="text" placeholder="Setting(s)/Location(s)" name="settings" value={setting} onChange={e => onChange(e)}  />
-                </div>
-            </Fragment>
+            <AddSetting
+            createSetting={createSetting} 
+            />
         )
     }
     if(addGoals) {
@@ -231,7 +238,8 @@ const CreateBook = ({ createProfile, history }) => {
                         id="addSettings"
                     />
                     <label htmlFor="addSettings" className="form-check-label">Add Settings/Locations</label>
-                </div>   
+                </div> 
+                {settings.length > 0 ? <ShowSettings settings={settings} /> : ""}  
                 {showSettingsInput}
                 <div className="col-6 col-sm-3 form-check">
                     <input
