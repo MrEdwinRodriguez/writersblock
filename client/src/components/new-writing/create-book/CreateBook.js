@@ -5,8 +5,10 @@ import { connect } from 'react-redux';
 import Spinner from '../../common/Spinner';
 import AddCharacter from './AddCharacter';
 import AddSetting from './AddSetting';
+import AddDeadline from './AddDeadline';
 import ShowCharacters from './ShowCharacters';
 import ShowSettings from './ShowSettings';
+import ShowDeadlines from './ShowDeadlines';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
@@ -21,7 +23,7 @@ const CreateBook = ({ createProfile, history }) => {
         characters: [],
         settings: [],
         goals: [],
-        deadline:"",
+        deadlines:[],
         notes: [],
         chapters: [],
         content: "",
@@ -37,7 +39,7 @@ const CreateBook = ({ createProfile, history }) => {
         addChapters: false, 
     })
 
-    const { idea, title, outline, genre, characters, settings, goals, deadline, notes, chapters, content, addIdea, addTitle, addOutline, addGenre, addCharacters, addSettings, addGoals, addDeadline, addNotes, addChapters  } = formData;
+    const { idea, title, outline, genre, characters, settings, goals, deadlines, notes, chapters, content, addIdea, addTitle, addOutline, addGenre, addCharacters, addSettings, addGoals, addDeadline, addNotes, addChapters  } = formData;
 
     const onChangeAdd = e => {
         const boolValue = e.target.value  == "true" ? true : false;
@@ -61,6 +63,12 @@ const CreateBook = ({ createProfile, history }) => {
         console.log('adding setting to book', setting)
         settings.push(setting)
         setFormData({...formData, [characters]: characters })
+
+    }
+    const createDeadline = (deadline) =>  {
+        console.log('adding deadline for book', deadline)
+        deadlines.push(deadline)
+        setFormData({...formData, [deadlines]: deadlines })
 
     }
     let showIdesInput, showTitleInput, showOutlineInput, showGenreInput, showCharactersInput, showSettingsInput, showGoalsInput, showDeadlinesInput, showNotesInput, showChaptersInput  = <div></div>
@@ -105,11 +113,6 @@ const CreateBook = ({ createProfile, history }) => {
             <AddCharacter 
             createCharacter={createCharacter} 
             />
-            // <Fragment>
-            //     <div className="form-group form-group-alt">
-            //         <input type="text" placeholder="Characters" name="characters" value={characters} onChange={e => onChange(e)}  />
-            //     </div>
-            // </Fragment>
         )
     }
     if(addSettings) {
@@ -121,20 +124,16 @@ const CreateBook = ({ createProfile, history }) => {
     }
     if(addGoals) {
         showGoalsInput = (
-            <Fragment>
-                <div className="form-group form-group-alt">
-                    <input type="text" placeholder="Goals" name="goals" value={goals} onChange={e => onChange(e)}  />
-                </div>
-            </Fragment>
+            <addDeadline
+            createDeadline={createDeadline} 
+            />
         )
     }
     if(addDeadline) {
         showDeadlinesInput = (
-            <Fragment>
-                <div className="form-group form-group-alt">
-                    <input type="text" placeholder="Deadlines" name="deadline" value={deadline} onChange={e => onChange(e)}  />
-                </div>
-            </Fragment>
+            <AddDeadline
+            createDeadline={createDeadline} 
+            />
         )
     }
     if(addNotes) {
@@ -266,6 +265,7 @@ const CreateBook = ({ createProfile, history }) => {
                     />
                     <label htmlFor="addDeadline" className="form-check-label">Add Deadline(s)</label>
                 </div>
+                {deadlines.length > 0 ? <ShowDeadlines deadlines={deadlines} /> : ""}  
                 {showDeadlinesInput}
                 <div className="col-6 col-sm-3 form-check">
                     <input

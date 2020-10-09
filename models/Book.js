@@ -23,11 +23,12 @@ const BookSchema = new mongoose.Schema({
         }
     ],
     goals: [ { type: String } ],
-    deadline: [ 
+    deadlines: [ 
         { 
             isHardDeadline: { type: Boolean },
             date: { type: Date },
-            accomplishment:  { type: String }
+            description:  { type: String },
+            isMet: { type: Boolean, default: false }
         } 
     ],
     notes: [ { type: String } ],

@@ -3,14 +3,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 const ShowSettings = ({ settings }) => {
-    var characterList = <tr><td>You have not added a business</td></tr>;
+    var settingList = <tr><td>You have not added any settings or locations.</td></tr>;
     if (settings && settings.length !== 0) {
-        console.log(settings)
-        characterList = settings.map((setting, index) => (
+        settingList = settings.map((setting, index) => (
             <tr key={index}>
-                <td width="20%">{setting.location.length > 1800 ? setting.location.slice(0, 180) + "..." : setting.location}</td>
-                <td width="20%">{setting.description.length > 180 ? setting.description.slice(0, 180)+".....": setting.description}</td>
-                <td width="20%">{setting.timeFrame.length > 180 ? setting.timeFrame.slice(0, 180)+"....." : setting.timeFrame}</td>
+                <td width="30%">{setting.location.length > 1800 ? setting.location.slice(0, 180) + "..." : setting.location}</td>
+                <td width="40%">{setting.description.length > 180 ? setting.description.slice(0, 180)+".....": setting.description}</td>
+                <td width="30%">{setting.timeFrame.length > 180 ? setting.timeFrame.slice(0, 180)+"....." : setting.timeFrame}</td>
             </tr>
 
         ))
@@ -27,7 +26,7 @@ const ShowSettings = ({ settings }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {characterList}
+                    {settingList}
                 </tbody>
             </table>
             </div>
