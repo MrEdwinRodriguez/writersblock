@@ -68,7 +68,7 @@ const AddDeadline = ({ createDeadline }) => {
                         />
                         <label htmlFor="hardDeadline" className="form-check-label">Is this a hard deadline? </label>
                     </div>
-                    <input type="submit" className="btn btn-primary" value="CreateDeadline" onClick={e => onSubmitDeadline(e)}/>
+                    <input type="submit" className="btn btn-primary" value="Create Deadline" onClick={e => onSubmitDeadline(e)}/>
                 </div>
         </div>
     )

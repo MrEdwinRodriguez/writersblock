@@ -1,6 +1,4 @@
 import React, { Fragment, useState} from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 const ShowSettings = ({ settings }) => {
     var settingList = <tr><td>You have not added any settings or locations.</td></tr>;

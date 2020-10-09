@@ -31,7 +31,14 @@ const BookSchema = new mongoose.Schema({
             isMet: { type: Boolean, default: false }
         } 
     ],
-    notes: [ { type: String } ],
+    notes: [ 
+        { 
+            date: { type: Date, default: new Date() },
+            note:  { type: String },
+            reference: { type: String },
+
+        } 
+     ],
     chapters: [
         { 
         chapterNumber : { type: Number },

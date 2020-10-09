@@ -6,11 +6,13 @@ import Spinner from '../../common/Spinner';
 import AddCharacter from './AddCharacter';
 import AddSetting from './AddSetting';
 import AddDeadline from './AddDeadline';
+import AddNote from './AddNote';
 import ShowCharacters from './ShowCharacters';
 import ShowSettings from './ShowSettings';
 import ShowDeadlines from './ShowDeadlines';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import ShowNotes from './ShowNotes';
 
 
 
@@ -68,6 +70,11 @@ const CreateBook = ({ createProfile, history }) => {
     const createDeadline = (deadline) =>  {
         console.log('adding deadline for book', deadline)
         deadlines.push(deadline)
+        setFormData({...formData, [deadlines]: deadlines })
+
+    }
+    const createNote = (note) =>  {
+         notes.push(note)
         setFormData({...formData, [deadlines]: deadlines })
 
     }
@@ -138,11 +145,9 @@ const CreateBook = ({ createProfile, history }) => {
     }
     if(addNotes) {
         showNotesInput = (
-            <Fragment>
-                <div className="form-group form-group-alt">
-                    <input type="text" placeholder="Notes" name="notes" value={notes} onChange={e => onChange(e)}  />
-                </div>
-            </Fragment>
+            <AddNote
+            createNote={createNote} 
+            />
         )
     }
     if(addChapters) {
@@ -279,6 +284,7 @@ const CreateBook = ({ createProfile, history }) => {
                     />
                     <label htmlFor="addNotes" className="form-check-label">Add Notes/Research</label>
                 </div>
+                {notes.length > 0 ? <ShowNotes notes={notes} /> : ""}
                 {showNotesInput}
                 <div className="col-6 col-sm-3 form-check mb-4">
                     <input
