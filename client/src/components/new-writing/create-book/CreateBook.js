@@ -2,9 +2,12 @@ import React, { Fragment, useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Spinner from '../common/Spinner';
+import Spinner from '../../common/Spinner';
+import AddCharacter from './AddCharacter';
+import ShowCharacters from './ShowCharacters';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
 
 
 const CreateBook = ({ createProfile, history }) => {
@@ -42,13 +45,20 @@ const CreateBook = ({ createProfile, history }) => {
     const onChange = e => setFormData({...formData, [e.target.name]: e.target.value })
     const onSubmit = async e => {
         e.preventDefault();
-        console.log('submitting new book')
+        console.log('submitting new book', formData)
+
     }
+    const createCharacter = (character) =>  {
+        console.log('adding character to book', character)
+        characters.push(character)
+        setFormData({...formData, [characters]: characters })
+    
+  }
     let showIdesInput, showTitleInput, showOutlineInput, showGenreInput, showCharactersInput, showSettingsInput, showGoalsInput, showDeadlinesInput, showNotesInput, showChaptersInput  = <div></div>
     if(addIdea) {
         showIdesInput = (
             <Fragment>
-                <div className="form-group">
+                <div className="form-group form-group-alt">
                     <input type="text" placeholder="Idea/Theme" name="idea" value={idea} onChange={e => onChange(e)}  />
                 </div>
             </Fragment>
@@ -57,7 +67,7 @@ const CreateBook = ({ createProfile, history }) => {
     if(addTitle) {
         showTitleInput = (
             <Fragment>
-                <div className="form-group">
+                <div className="form-group form-group-alt">
                     <input type="text" placeholder="Title" name="title" value={title} onChange={e => onChange(e)}  />
                 </div>
             </Fragment>
@@ -66,7 +76,7 @@ const CreateBook = ({ createProfile, history }) => {
     if(addOutline) {
         showOutlineInput = (
             <Fragment>
-                <div className="form-group">
+                <div className="form-group form-group-alt">
                     <input type="text" placeholder="Outline" name="outline" value={outline} onChange={e => onChange(e)}  />
                 </div>
             </Fragment>
@@ -75,7 +85,7 @@ const CreateBook = ({ createProfile, history }) => {
     if(addGenre) {
         showGenreInput = (
             <Fragment>
-                <div className="form-group">
+                <div className="form-group form-group-alt">
                     <input type="text" placeholder="Genre" name="genre" value={genre} onChange={e => onChange(e)}  />
                 </div>
             </Fragment>
@@ -83,17 +93,20 @@ const CreateBook = ({ createProfile, history }) => {
     }
     if(addCharacters) {
         showCharactersInput = (
-            <Fragment>
-                <div className="form-group">
-                    <input type="text" placeholder="Characters" name="characters" value={characters} onChange={e => onChange(e)}  />
-                </div>
-            </Fragment>
+            <AddCharacter 
+            createCharacter={createCharacter} 
+            />
+            // <Fragment>
+            //     <div className="form-group form-group-alt">
+            //         <input type="text" placeholder="Characters" name="characters" value={characters} onChange={e => onChange(e)}  />
+            //     </div>
+            // </Fragment>
         )
     }
     if(addSettings) {
         showSettingsInput = (
             <Fragment>
-                <div className="form-group">
+                <div className="form-group form-group-alt">
                     <input type="text" placeholder="Setting(s)/Location(s)" name="settings" value={setting} onChange={e => onChange(e)}  />
                 </div>
             </Fragment>
@@ -102,7 +115,7 @@ const CreateBook = ({ createProfile, history }) => {
     if(addGoals) {
         showGoalsInput = (
             <Fragment>
-                <div className="form-group">
+                <div className="form-group form-group-alt">
                     <input type="text" placeholder="Goals" name="goals" value={goals} onChange={e => onChange(e)}  />
                 </div>
             </Fragment>
@@ -111,7 +124,7 @@ const CreateBook = ({ createProfile, history }) => {
     if(addDeadline) {
         showDeadlinesInput = (
             <Fragment>
-                <div className="form-group">
+                <div className="form-group form-group-alt">
                     <input type="text" placeholder="Deadlines" name="deadline" value={deadline} onChange={e => onChange(e)}  />
                 </div>
             </Fragment>
@@ -120,7 +133,7 @@ const CreateBook = ({ createProfile, history }) => {
     if(addNotes) {
         showNotesInput = (
             <Fragment>
-                <div className="form-group">
+                <div className="form-group form-group-alt">
                     <input type="text" placeholder="Notes" name="notes" value={notes} onChange={e => onChange(e)}  />
                 </div>
             </Fragment>
@@ -129,7 +142,7 @@ const CreateBook = ({ createProfile, history }) => {
     if(addChapters) {
         showChaptersInput = (
             <Fragment>
-                <div className="form-group">
+                <div className="form-group form-group-alt">
                     <input type="text" placeholder="Chapters" name="chapters" value={chapters} onChange={e => onChange(e)}  />
                 </div>
             </Fragment>
@@ -205,6 +218,7 @@ const CreateBook = ({ createProfile, history }) => {
                     />
                     <label htmlFor="addCharacters" className="form-check-label">Add Characters</label>
                 </div>
+                {characters.length > 0 ? <ShowCharacters characters={characters} /> : ""}
                 {showCharactersInput}
                 <div className="col-6 col-sm-3 form-check">
                     <input

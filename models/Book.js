@@ -1,11 +1,5 @@
 const mongoose = require('mongoose');
 
-
-// goals: [],
-// deadline:"",
-// notes: [],
-// chapters: [],
-// content: "",
 const BookSchema = new mongoose.Schema({
     title: {type: String },
     idea: { type: String },
@@ -15,8 +9,9 @@ const BookSchema = new mongoose.Schema({
         { 
             name: { type: String},
             age: { type: Number },
-            appearence: { type: String },
-            description: { type: String },
+            homeTown: { type: Number },
+            appearance: { type: String },
+            personality: { type: String },
             characterNotes: { type: String }
         }
     ],

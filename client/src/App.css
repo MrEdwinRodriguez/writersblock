@@ -276,6 +276,10 @@ img {
   margin: 1.2rem 0;
 }
 
+.form-group-alt {
+  margin-top: 5px !important;
+}
+
 .form .form-text {
   display: block;
   margin-top: 0.3rem;
@@ -293,6 +297,22 @@ img {
   padding: 0.4rem;
   font-size: 1.2rem;
   border: 1px solid #ccc;
+}
+
+.formSection {
+  margin-bottom: 0px !important;
+}
+
+.wrapForm {
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
+  padding: 15px;
+}
+
+.container-custom {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
 }
 
 .form input[type='submit'],
