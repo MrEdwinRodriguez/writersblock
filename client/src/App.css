@@ -299,6 +299,16 @@ img {
   border: 1px solid #ccc;
 }
 
+.form input[field='subject'] {
+  width: 95% !important;
+  margin-left: 5% !important;
+}
+
+.form input[field='point'] {
+  width: 90% !important;
+  margin-left: 10% !important;
+}
+
 .formSection {
   margin-bottom: 0px !important;
 }

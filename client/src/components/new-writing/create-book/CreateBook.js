@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Spinner from '../../common/Spinner';
 import AddCharacter from './AddCharacter';
 import AddSetting from './AddSetting';
+import AddOutline from './AddOutline';
 import AddDeadline from './AddDeadline';
 import AddNote from './AddNote';
 import ShowCharacters from './ShowCharacters';
@@ -20,8 +21,7 @@ const CreateBook = ({ createProfile, history }) => {
     const [formData, setFormData] = useState({
         idea: "",
         title: "",
-        outline: "",
-        genre: "",
+        outlines: [],
         characters: [],
         settings: [],
         goals: [],
@@ -32,7 +32,6 @@ const CreateBook = ({ createProfile, history }) => {
         addIdea : false,
         addTitle: false,
         addOutline: false,
-        addGenre: false,
         addCharacters: false,
         addSettings: false, 
         addGoals: false, 
@@ -41,7 +40,7 @@ const CreateBook = ({ createProfile, history }) => {
         addChapters: false, 
     })
 
-    const { idea, title, outline, genre, characters, settings, goals, deadlines, notes, chapters, content, addIdea, addTitle, addOutline, addGenre, addCharacters, addSettings, addGoals, addDeadline, addNotes, addChapters  } = formData;
+    const { idea, title, outlines, characters, settings, goals, deadlines, notes, chapters, content, addIdea, addTitle, addOutline, addCharacters, addSettings, addGoals, addDeadline, addNotes, addChapters  } = formData;
 
     const onChangeAdd = e => {
         const boolValue = e.target.value  == "true" ? true : false;
@@ -52,6 +51,12 @@ const CreateBook = ({ createProfile, history }) => {
     const onSubmit = async e => {
         e.preventDefault();
         console.log('submitting new book', formData)
+
+    }
+    const createOutlineSection = (outline) =>  {
+        console.log('adding outline for book', outline)
+        outlines.push(outline)
+        setFormData({...formData, [outlines]: outlines })
 
     }
     const createCharacter = (character) =>  {
@@ -78,7 +83,7 @@ const CreateBook = ({ createProfile, history }) => {
         setFormData({...formData, [deadlines]: deadlines })
 
     }
-    let showIdesInput, showTitleInput, showOutlineInput, showGenreInput, showCharactersInput, showSettingsInput, showGoalsInput, showDeadlinesInput, showNotesInput, showChaptersInput  = <div></div>
+    let showIdesInput, showTitleInput, showOutlineInput, showCharactersInput, showSettingsInput, showGoalsInput, showDeadlinesInput, showNotesInput, showChaptersInput  = <div></div>
     if(addIdea) {
         showIdesInput = (
             <Fragment>
@@ -99,20 +104,9 @@ const CreateBook = ({ createProfile, history }) => {
     }
     if(addOutline) {
         showOutlineInput = (
-            <Fragment>
-                <div className="form-group form-group-alt">
-                    <input type="text" placeholder="Outline" name="outline" value={outline} onChange={e => onChange(e)}  />
-                </div>
-            </Fragment>
-        )
-    }
-    if(addGenre) {
-        showGenreInput = (
-            <Fragment>
-                <div className="form-group form-group-alt">
-                    <input type="text" placeholder="Genre" name="genre" value={genre} onChange={e => onChange(e)}  />
-                </div>
-            </Fragment>
+            <AddOutline
+            createOutlineSection={createOutlineSection} 
+            />
         )
     }
     if(addCharacters) {
@@ -129,13 +123,13 @@ const CreateBook = ({ createProfile, history }) => {
             />
         )
     }
-    if(addGoals) {
-        showGoalsInput = (
-            <addDeadline
-            createDeadline={createDeadline} 
-            />
-        )
-    }
+    // if(addGoals) {
+    //     showGoalsInput = (
+    //         <addGoals
+    //         createDeadline={createDeadline} 
+    //         />
+    //     )
+    // }
     if(addDeadline) {
         showDeadlinesInput = (
             <AddDeadline
@@ -188,7 +182,7 @@ const CreateBook = ({ createProfile, history }) => {
                         onChange={e => onChangeAdd(e)}
                         id="addTitle"
                     />
-                    <label htmlFor="addTitle" className="form-check-label">Add Title</label>
+                    <label htmlFor="addTitle" className="form-check-label">Add Title Idea</label>
                 </div>
                 {showTitleInput}
                 <div className="col-6 col-sm-3 form-check">
@@ -201,22 +195,9 @@ const CreateBook = ({ createProfile, history }) => {
                         onChange={e => onChangeAdd(e)}
                         id="addOutline"
                     />
-                    <label htmlFor="addOutline" className="form-check-label">Add Outline</label>
+                    <label htmlFor="addOutline" className="form-check-label">Add Outline Section</label>
                 </div>
                 {showOutlineInput}
-                <div className="col-6 col-sm-3 form-check">
-                    <input
-                        type="checkbox"
-                        className="form-check-input"
-                        name="addGenre"
-                        value={addGenre}
-                        checked={addGenre}
-                        onChange={e => onChangeAdd(e)}
-                        id="addGenre"
-                    />
-                    <label htmlFor="addGenre" className="form-check-label">Add Genre</label>
-                </div>
-                {showGenreInput}
                 <div className="col-6 col-sm-3 form-check">
                     <input
                         type="checkbox"
@@ -245,7 +226,7 @@ const CreateBook = ({ createProfile, history }) => {
                 </div> 
                 {settings.length > 0 ? <ShowSettings settings={settings} /> : ""}  
                 {showSettingsInput}
-                <div className="col-6 col-sm-3 form-check">
+                {/* <div className="col-6 col-sm-3 form-check">
                     <input
                         type="checkbox"
                         className="form-check-input"
@@ -256,7 +237,7 @@ const CreateBook = ({ createProfile, history }) => {
                         id="addGoals"
                     />
                     <label htmlFor="addGoals" className="form-check-label">Add Goals</label>
-                </div> 
+                </div>  */}
                 {showGoalsInput}
                 <div className="col-6 col-sm-3 form-check">
                     <input
@@ -299,7 +280,7 @@ const CreateBook = ({ createProfile, history }) => {
                     <label htmlFor="addChapters" className="form-check-label">Add Chapters</label>
                 </div>
                 {showChaptersInput}
-                <input type="submit" className="btn btn-primary" value="CreateBook" />
+                <input type="submit" className="btn btn-primary" value="Create Book" />
                 </form>
         </Fragment>
     )

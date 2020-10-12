@@ -4,7 +4,6 @@ const BookSchema = new mongoose.Schema({
     title: {type: String },
     idea: { type: String },
     type: [ { type: String } ],
-    genre: { type: String },
     characters: [
         { 
             name: { type: String},
@@ -45,6 +44,7 @@ const BookSchema = new mongoose.Schema({
         content: { type: String },
      }
     ],
+    images: [{ type: String }],
     content: { type: String }
 });
 

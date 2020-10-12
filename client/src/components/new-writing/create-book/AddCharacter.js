@@ -61,7 +61,7 @@ const AddCharacter = ({ createCharacter }) => {
                     <div className="form-group form-group-alt">
                         <input type="text" placeholder="Character Notes" name="characterNotes" value={characterNotes} onChange={e => onChange(e)}  />
                     </div>
-                    <input type="submit" className="btn btn-primary" value="CreateCharacter" onClick={e => onSubmitCharacter(e)}/>
+                    <input type="submit" className="btn btn-primary" value="Create Character" onClick={e => onSubmitCharacter(e)}/>
                 </div>
         </div>
     )

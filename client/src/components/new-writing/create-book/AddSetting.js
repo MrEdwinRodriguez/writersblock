@@ -44,7 +44,7 @@ const AddSetting = ({ createSetting }) => {
                     <div className="form-group form-group-alt">
                         <input type="text" placeholder="Time Frame" name="timeFrame" value={timeFrame} onChange={e => onChange(e)}  />
                     </div>
-                    <input type="submit" className="btn btn-primary" value="CreateSetting" onClick={e => onSubmitSetting(e)}/>
+                    <input type="submit" className="btn btn-primary" value="Create Setting" onClick={e => onSubmitSetting(e)}/>
                 </div>
         </div>
     )
