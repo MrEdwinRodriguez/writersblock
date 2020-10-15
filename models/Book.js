@@ -2,8 +2,24 @@ const mongoose = require('mongoose');
 
 const BookSchema = new mongoose.Schema({
     title: {type: String },
-    idea: { type: String },
+    idea: [{ type: String }],
     type: [ { type: String } ],
+    outlines: [ 
+        { 
+            name: { type: String },
+            subjects: [
+                {
+                    subjectName: { type: String },
+                    points: [
+                        {
+                            pointName: { type: String },
+                            text: { type: String }
+                        }
+                    ]
+                }
+            ] 
+        }
+    ],
     characters: [
         { 
             name: { type: String},

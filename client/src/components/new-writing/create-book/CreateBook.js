@@ -6,12 +6,14 @@ import Spinner from '../../common/Spinner';
 import AddCharacter from './AddCharacter';
 import AddSetting from './AddSetting';
 import AddOutline from './AddOutline';
+import AddTitle from './AddTitle';
 import AddDeadline from './AddDeadline';
 import AddNote from './AddNote';
 import ShowCharacters from './ShowCharacters';
 import ShowSettings from './ShowSettings';
 import ShowDeadlines from './ShowDeadlines';
 import ShowOutlines from './ShowOutlines';
+import ShowTitle from './ShowTitle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import ShowNotes from './ShowNotes';
@@ -41,7 +43,7 @@ const CreateBook = ({ createProfile, history }) => {
         addChapters: false, 
     })
 
-    const { idea, title, outlines, characters, settings, goals, deadlines, notes, chapters, content, addIdea, addTitle, addOutline, addCharacters, addSettings, addGoals, addDeadline, addNotes, addChapters  } = formData;
+    let { idea, title, outlines, characters, settings, goals, deadlines, notes, chapters, content, addIdea, addTitle, addOutline, addCharacters, addSettings, addGoals, addDeadline, addNotes, addChapters  } = formData;
 
     const onChangeAdd = e => {
         const boolValue = e.target.value  == "true" ? true : false;
@@ -84,6 +86,11 @@ const CreateBook = ({ createProfile, history }) => {
         setFormData({...formData, [deadlines]: deadlines })
 
     }
+    const createTitle = (newTitle) =>  {
+        console.log('adding title to book', newTitle)
+        // title = newTitle.;
+        setFormData({...formData, "title": newTitle  })
+    }
     let showIdesInput, showTitleInput, showOutlineInput, showCharactersInput, showSettingsInput, showGoalsInput, showDeadlinesInput, showNotesInput, showChaptersInput  = <div></div>
     if(addIdea) {
         showIdesInput = (
@@ -96,11 +103,9 @@ const CreateBook = ({ createProfile, history }) => {
     }
     if(addTitle) {
         showTitleInput = (
-            <Fragment>
-                <div className="form-group form-group-alt">
-                    <input type="text" placeholder="Title" name="title" value={title} onChange={e => onChange(e)}  />
-                </div>
-            </Fragment>
+            <AddTitle
+            createTitle={createTitle} 
+            />
         )
     }
     if(addOutline) {
@@ -183,8 +188,9 @@ const CreateBook = ({ createProfile, history }) => {
                         onChange={e => onChangeAdd(e)}
                         id="addTitle"
                     />
-                    <label htmlFor="addTitle" className="form-check-label">Add Title Idea</label>
+                    <label htmlFor="addTitle" className="form-check-label">Add Title</label>
                 </div>
+                {title.length > 0 ?  <ShowTitle title={title} /> : ""}
                 {showTitleInput}
                 <div className="col-6 col-sm-3 form-check">
                     <input
