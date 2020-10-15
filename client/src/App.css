@@ -147,6 +147,9 @@ img {
 .mt20 {
   margin-top: 20px;
 }
+.ml40 {
+  margin-left: 40px;
+}
 .btn {
   display: inline-block;
   background: var(--light-color);
@@ -276,6 +279,10 @@ img {
   margin: 1.2rem 0;
 }
 
+.form-group-alt {
+  margin-top: 5px !important;
+}
+
 .form .form-text {
   display: block;
   margin-top: 0.3rem;
@@ -293,6 +300,36 @@ img {
   padding: 0.4rem;
   font-size: 1.2rem;
   border: 1px solid #ccc;
+}
+
+.form input[field='subject'] {
+  width: 95% !important;
+  margin-left: 5% !important;
+}
+
+.form input[field='point'] {
+  width: 90% !important;
+  margin-left: 10% !important;
+}
+
+.addSubject {
+  margin-left: 5% !important;
+}
+
+.formSection {
+  margin-bottom: 0px !important;
+}
+
+.wrapForm {
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
+  padding: 15px;
+}
+
+.container-custom {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
 }
 
 .form input[type='submit'],
