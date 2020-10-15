@@ -11,6 +11,7 @@ import AddNote from './AddNote';
 import ShowCharacters from './ShowCharacters';
 import ShowSettings from './ShowSettings';
 import ShowDeadlines from './ShowDeadlines';
+import ShowOutlines from './ShowOutlines';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import ShowNotes from './ShowNotes';
@@ -197,6 +198,7 @@ const CreateBook = ({ createProfile, history }) => {
                     />
                     <label htmlFor="addOutline" className="form-check-label">Add Outline Section</label>
                 </div>
+                {outlines.length > 0 ?  <ShowOutlines outlines={outlines} /> : ""}
                 {showOutlineInput}
                 <div className="col-6 col-sm-3 form-check">
                     <input
