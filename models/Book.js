@@ -1,22 +1,16 @@
 const mongoose = require('mongoose');
 
-
-// goals: [],
-// deadline:"",
-// notes: [],
-// chapters: [],
-// content: "",
 const BookSchema = new mongoose.Schema({
     title: {type: String },
     idea: { type: String },
     type: [ { type: String } ],
-    genre: { type: String },
     characters: [
         { 
             name: { type: String},
             age: { type: Number },
-            appearence: { type: String },
-            description: { type: String },
+            homeTown: { type: Number },
+            appearance: { type: String },
+            personality: { type: String },
             characterNotes: { type: String }
         }
     ],
@@ -28,20 +22,29 @@ const BookSchema = new mongoose.Schema({
         }
     ],
     goals: [ { type: String } ],
-    deadline: [ 
+    deadlines: [ 
         { 
             isHardDeadline: { type: Boolean },
             date: { type: Date },
-            accomplishment:  { type: String }
+            description:  { type: String },
+            isMet: { type: Boolean, default: false }
         } 
     ],
-    notes: [ { type: String } ],
+    notes: [ 
+        { 
+            date: { type: Date, default: new Date() },
+            note:  { type: String },
+            reference: { type: String },
+
+        } 
+     ],
     chapters: [
         { 
         chapterNumber : { type: Number },
         content: { type: String },
      }
     ],
+    images: [{ type: String }],
     content: { type: String }
 });
 

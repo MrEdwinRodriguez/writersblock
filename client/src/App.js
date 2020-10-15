@@ -8,7 +8,7 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Dashboard from './components/dashboard/Dashboard';
 import CreateProfile from './components/profile/CreateProfile';
-import CreateBook from './components/new-writing/CreateBook';
+import CreateBook from './components/new-writing/create-book/CreateBook';
 import EditProfile from './components/profile/EditProfile';
 import PrivateRoute from './components/routing/PrivateRoute';
 //redux
