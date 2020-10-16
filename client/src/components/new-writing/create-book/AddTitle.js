@@ -32,7 +32,7 @@ const AddTitle = ({ createTitle }) => {
     return (
         <div className='wrapForm'>
             <h5 className='large text-primary formSection'>Add Title</h5>
-            <span className='small '>Add as much or as little as you like. This can be updated later.</span>
+            <span className='small '>This can be updated later.</span>
                 <div className="form">
                     <div className="form-group form-group-alt">
                         <input type="text" placeholder="Title" name="title" value={title} onChange={e => onChange(e)} required />
