@@ -40,6 +40,10 @@ const CreateBook = ({ createBook, history }) => {
     let { ideas, title, outlines, characters, settings, deadlines, notes, addIdea, addTitle, addOutline, addCharacters, addSettings, addDeadline, addNotes  } = formData;
 
     const onCLickAdd = e => {
+        let element = document.getElementsByClassName("active")
+        element[0].classList.remove("active");
+        console.log(e.target)
+        e.currentTarget.className += " active";
         const boolValue = e.target.value  == "true" ? true : false;
         console.log(e.target.name, e.target.value, !boolValue)
         setFormData({...formData, addIdea: false, addTitle: false, addOutline: false, addCharacters: false, addSettings: false, addDeadline: false, addNotes: false, [e.target.name]: !boolValue })

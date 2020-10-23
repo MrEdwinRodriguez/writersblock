@@ -5,9 +5,9 @@ const ShowTitle = ({ title }) => {
  
     return (
         <div className='container container-custom'>
-            <div className='table-responsive'>
+            <div className='table-responsive mb20'>
             <h5 className='planningSection'><stong>Title</stong></h5>
-                {title}
+                <div className='center-text'>{title}</div>
             </div>
         </div>
     )
