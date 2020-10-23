@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const BookSchema = new mongoose.Schema({
+    // user: {type: mongoose.Schema.Types.ObjectId, ref: 'user'},
     title: {type: String },
     ideas: [{ type: String }],
     type: [ { type: String } ],
@@ -23,21 +24,20 @@ const BookSchema = new mongoose.Schema({
     characters: [
         { 
             name: { type: String},
-            age: { type: Number },
-            homeTown: { type: Number },
+            age: { type: String },
+            homeTown: { type: String },
             appearance: { type: String },
             personality: { type: String },
             characterNotes: { type: String }
         }
     ],
-    setting: [
+    settings: [
         {
             location: { type: String },
             description: { type: String },
             timeFrame: { type: String },
         }
     ],
-    goals: [ { type: String } ],
     deadlines: [ 
         { 
             isHardDeadline: { type: Boolean },
@@ -61,7 +61,17 @@ const BookSchema = new mongoose.Schema({
      }
     ],
     images: [{ type: String }],
-    content: { type: String }
+    content: { type: String },
+    date: { type: Date, default: Date.now },
+    updated: { type: Date },
+    comments: [
+		{ 
+			user: { type: mongoose.Schema.Types.ObjectId, ref: 'users'},
+			text: {type: String, required: true},
+			date: { type: Date, default: Date.now },
+			updated: { type: Date }
+		}
+	],
 });
 
 module.exports = Book = mongoose.model('book', BookSchema);

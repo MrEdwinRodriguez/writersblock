@@ -6,6 +6,7 @@ const ShowTitle = ({ title }) => {
     return (
         <div className='container container-custom'>
             <div className='table-responsive'>
+            <h5 className='planningSection'><stong>Title</stong></h5>
                 {title}
             </div>
         </div>

@@ -320,6 +320,11 @@ img {
   margin-bottom: 0px !important;
 }
 
+.planningSection{
+  text-align: center;
+  text-decoration: underline;
+}
+
 .wrapForm {
   border-style: solid;
   border-width: 1px;

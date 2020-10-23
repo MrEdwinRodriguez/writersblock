@@ -24,6 +24,7 @@ const ShowOutlines = ({ outlines }) => {
     } 
     return (
         <div className='container container-custom'>
+        <h5 className='planningSection'><stong>Outline</stong></h5>
             <ol>
                 {outLine}
             </ol>

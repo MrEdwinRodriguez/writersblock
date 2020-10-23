@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../../common/Spinner';
@@ -16,20 +15,16 @@ import ShowDeadlines from './ShowDeadlines';
 import ShowOutlines from './ShowOutlines';
 import ShowTitle from './ShowTitle';
 import ShowIdeas from './ShowIdeas';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import ShowNotes from './ShowNotes';
+import { createBook } from '../../../actions/bookActions';
 
-
-
-const CreateBook = ({ createProfile, history }) => {
+const CreateBook = ({ createBook, history }) => {
     const [formData, setFormData] = useState({
         ideas: [],
         title: "",
         outlines: [],
         characters: [],
         settings: [],
-        goals: [],
         deadlines:[],
         notes: [],
         content: "",
@@ -42,7 +37,7 @@ const CreateBook = ({ createProfile, history }) => {
         addNotes: false, 
     })
 
-    let { ideas, title, outlines, characters, settings, goals, deadlines, notes, addIdea, addTitle, addOutline, addCharacters, addSettings, addDeadline, addNotes  } = formData;
+    let { ideas, title, outlines, characters, settings, deadlines, notes, addIdea, addTitle, addOutline, addCharacters, addSettings, addDeadline, addNotes  } = formData;
 
     const onCLickAdd = e => {
         const boolValue = e.target.value  == "true" ? true : false;
@@ -52,9 +47,12 @@ const CreateBook = ({ createProfile, history }) => {
     const onChange = e => setFormData({...formData, [e.target.name]: e.target.value })
     const onSubmit = async e => {
         e.preventDefault();
-        console.log('submitting new book', formData)
+        console.log('creating book', formData)
+        
+        createBook(formData, history, false);
 
     }
+
     const createOutlineSection = (outline) =>  {
         console.log('adding outline for book', outline)
         outlines.push(outline)
@@ -90,11 +88,11 @@ const CreateBook = ({ createProfile, history }) => {
         setFormData({...formData, "title": newTitle  })
     }
     const createIdea = (idea) =>  {
-        ideas.push(idea)
+        ideas.push(idea.idea)
        setFormData({...formData, [ideas]: ideas})
 
    }
-    let showIdeasInput, showTitleInput, showOutlineInput, showCharactersInput, showSettingsInput, showGoalsInput, showDeadlinesInput, showNotesInput = <div></div>
+    let showIdeasInput, showTitleInput, showOutlineInput, showCharactersInput, showSettingsInput, showDeadlinesInput, showNotesInput = <div></div>
     if(addIdea) {
         showIdeasInput = (
             <AddIdea
@@ -130,13 +128,6 @@ const CreateBook = ({ createProfile, history }) => {
             />
         )
     }
-    // if(addGoals) {
-    //     showGoalsInput = (
-    //         <addGoals
-    //         createDeadline={createDeadline} 
-    //         />
-    //     )
-    // }
     if(addDeadline) {
         showDeadlinesInput = (
             <AddDeadline
@@ -185,7 +176,10 @@ const CreateBook = ({ createProfile, history }) => {
             {showSettingsInput}
             {showDeadlinesInput}
             {showNotesInput}
-            <button className="btn btn-primary mb10 mt10">Create Book</button>
+            <form className="form" onSubmit={e => onSubmit(e)}>
+            <input type="submit" className="btn btn-primary mb10 mt10" value="Create Book" />
+            </form>
+          
             {title.length > 0 ?  <ShowTitle title={title} /> : ""}
             {ideas.length > 0 ?  <ShowIdeas ideas={ideas} /> : ""}
             {outlines.length > 0 ?  <ShowOutlines outlines={outlines} /> : ""}
@@ -198,8 +192,10 @@ const CreateBook = ({ createProfile, history }) => {
 }
 
 CreateBook.propTypes = {
-
+    createBook: PropTypes.func.isRequired,
 }
 
-export default CreateBook
+export default connect(null, {createBook})(CreateBook);
+
+
 
