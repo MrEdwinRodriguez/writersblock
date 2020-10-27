@@ -2,7 +2,7 @@ import React, { Fragment, useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 
-const ShowOutlines = ({ outlines }) => {
+const ShowOutlines = ({ outlines, editSection }) => {
     const [formData, setFormData] = useState({
         outlines: outlines, 
     })
@@ -32,6 +32,7 @@ const ShowOutlines = ({ outlines }) => {
     } 
     const editOutline = (e) => {
         console.log(e.currentTarget.name)
+        editSection("Outline", e.currentTarget.name)
     }
     const deleteOutline = (e) => {
         const deleteIndex = e.currentTarget.name;

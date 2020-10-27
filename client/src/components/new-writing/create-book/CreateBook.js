@@ -5,6 +5,7 @@ import Spinner from '../../common/Spinner';
 import AddCharacter from './AddCharacter';
 import AddSetting from './AddSetting';
 import AddOutline from './AddOutline';
+import EditOutline from './EditOutline';
 import AddTitle from './AddTitle';
 import AddIdea from './AddIdea';
 import AddDeadline from './AddDeadline';
@@ -34,13 +35,14 @@ const CreateBook = ({ createBook, history }) => {
         editIdea : false,
         addTitle: false,
         addOutline: false,
+        editOutline: false, 
         addCharacters: false,
         addSettings: false, 
         addDeadline: false,
         addNotes: false, 
     })
 
-    let { ideas, title, outlines, characters, settings, deadlines, notes, addIdea, addTitle, editIdea, addOutline, addCharacters, addSettings, addDeadline, addNotes, editIndex  } = formData;
+    let { ideas, title, outlines, characters, settings, deadlines, notes, addIdea, addTitle, editIdea, addOutline, editOutline, addCharacters, addSettings, addDeadline, addNotes, editIndex  } = formData;
 
     const onCLickAdd = e => {
         let element = document.getElementsByClassName("active")
@@ -48,7 +50,7 @@ const CreateBook = ({ createBook, history }) => {
         e.currentTarget.className += " active";
         const boolValue = e.target.value  == "true" ? true : false;
         console.log(e.target.name, e.target.value, !boolValue)
-        setFormData({...formData, addIdea: false, editIdea: false,  addTitle: false, addOutline: false, addCharacters: false, addSettings: false, addDeadline: false, addNotes: false, [e.target.name]: !boolValue })
+        setFormData({...formData, addIdea: false, editIdea: false,  addTitle: false, addOutline: false, editOutline: false, addCharacters: false, addSettings: false, addDeadline: false, addNotes: false, [e.target.name]: !boolValue })
     }
     const onChange = e => setFormData({...formData, [e.target.name]: e.target.value })
     const onSubmit = async e => {
@@ -64,6 +66,10 @@ const CreateBook = ({ createBook, history }) => {
         outlines.push(outline)
         setFormData({...formData, [outlines]: outlines })
 
+    }
+    const editOutlineSection = (outline, index) =>  {
+        outlines[index] = outline;
+        setFormData({...formData, [outlines]: outlines, editOutline: false, addOutline: true})
     }
     const createCharacter = (character) =>  {
         console.log('adding character to book', character)
@@ -105,7 +111,7 @@ const CreateBook = ({ createBook, history }) => {
     const editSection = (section, index) =>  {
         const editSection = "edit"+section;
         editIndex = index;
-        setFormData({...formData, addIdea: false, editIdea: false,  addTitle: false, addOutline: false, addCharacters: false, addSettings: false, addDeadline: false, addNotes: false, editIndex: editIndex , [editSection]: true })
+        setFormData({...formData, addIdea: false, editIdea: false,  addTitle: false, addOutline: false, editOutline: false,  addCharacters: false, addSettings: false, addDeadline: false, addNotes: false, editIndex: editIndex , [editSection]: true })
     }
 
     let showIdeasInput, showTitleInput, showOutlineInput, showCharactersInput, showSettingsInput, showDeadlinesInput, showNotesInput  = <div></div>
@@ -136,6 +142,15 @@ const CreateBook = ({ createBook, history }) => {
         showOutlineInput = (
             <AddOutline
             createOutlineSection={createOutlineSection} 
+            />
+        )
+    }
+    if (editOutline) {
+        showOutlineInput = (
+            <EditOutline
+            editOutlineSection={editOutlineSection} 
+            outlineToEdit={outlines[editIndex]} 
+            editIndex = {editIndex}
             />
         )
     }
@@ -207,11 +222,11 @@ const CreateBook = ({ createBook, history }) => {
           
             {title.length > 0 ?  <ShowTitle title={title} /> : ""}
             {editIdea || addIdea ?  <ShowIdeas ideas={ideas} editSection={editSection} /> : ""}
-            {outlines.length > 0 ?  <ShowOutlines outlines={outlines} /> : ""}
-            {characters.length > 0 ? <ShowCharacters characters={characters} /> : ""}
-            {settings.length > 0 ? <ShowSettings settings={settings} /> : ""} 
-            {deadlines.length > 0 ? <ShowDeadlines deadlines={deadlines} /> : ""} 
-            {notes.length > 0 ? <ShowNotes notes={notes} /> : ""}
+            {addOutline || editOutline ?  <ShowOutlines outlines={outlines} editSection={editSection} /> : ""}
+            {characters.length > 0 ? <ShowCharacters characters={characters} editSection={editSection} /> : ""}
+            {settings.length > 0 ? <ShowSettings settings={settings} editSection={editSection} /> : ""} 
+            {deadlines.length > 0 ? <ShowDeadlines deadlines={deadlines} editSection={editSection} /> : ""} 
+            {notes.length > 0 ? <ShowNotes notes={notes} editSection={editSection} /> : ""}
         </Fragment>
     )
 }
