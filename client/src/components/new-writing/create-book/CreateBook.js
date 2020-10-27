@@ -11,6 +11,11 @@ import AddIdea from './AddIdea';
 import AddDeadline from './AddDeadline';
 import AddNote from './AddNote';
 import EditIdea from './EditIdea';
+import EditCharacter from './EditCharacter';
+import EditDeadline from './EditDeadline';
+import EditNote from './EditNote';
+import EditSetting from './EditSetting';
+import EditTitle from './EditTitle';
 import ShowCharacters from './ShowCharacters';
 import ShowSettings from './ShowSettings';
 import ShowDeadlines from './ShowDeadlines';
@@ -33,16 +38,21 @@ const CreateBook = ({ createBook, history }) => {
         content: "",
         addIdea : true,
         editIdea : false,
+        editCharacter: false,
+        editDeadline: false,
+        editNote: false,
+        editSetting: false, 
+        editOutline: false, 
+        editTitle: false, 
         addTitle: false,
         addOutline: false,
-        editOutline: false, 
         addCharacters: false,
         addSettings: false, 
         addDeadline: false,
         addNotes: false, 
     })
 
-    let { ideas, title, outlines, characters, settings, deadlines, notes, addIdea, addTitle, editIdea, addOutline, editOutline, addCharacters, addSettings, addDeadline, addNotes, editIndex  } = formData;
+    let { ideas, title, outlines, characters, settings, deadlines, notes, addIdea, addTitle, editTitle, editIdea, addOutline, editOutline, addCharacters, editCharacter,  addSettings, editSetting,  addDeadline, editDeadline, addNotes, editNote, editIndex  } = formData;
 
     const onCLickAdd = e => {
         let element = document.getElementsByClassName("active")
@@ -50,7 +60,7 @@ const CreateBook = ({ createBook, history }) => {
         e.currentTarget.className += " active";
         const boolValue = e.target.value  == "true" ? true : false;
         console.log(e.target.name, e.target.value, !boolValue)
-        setFormData({...formData, addIdea: false, editIdea: false,  addTitle: false, addOutline: false, editOutline: false, addCharacters: false, addSettings: false, addDeadline: false, addNotes: false, [e.target.name]: !boolValue })
+        setFormData({...formData, addIdea: false, editIdea: false,  addTitle: false, editTitle: false , addOutline: false, editOutline: false, addCharacters: false, editCharacter: false, addSettings: false, editSetting: false,  addDeadline: false, editDeadline: false,  addNotes: false, editNote: false, [e.target.name]: !boolValue })
     }
     const onChange = e => setFormData({...formData, [e.target.name]: e.target.value })
     const onSubmit = async e => {
@@ -76,13 +86,20 @@ const CreateBook = ({ createBook, history }) => {
         characters.push(character)
         setFormData({...formData, [characters]: characters })
     
-  }
-
+    }
+    const editCharacterFunc = (character, index) =>  {
+        characters[index] = character;
+        setFormData({...formData, [characters]: characters, editCharacter: false, addCharacters: true})
+    }
     const createSetting = (setting) =>  {
         console.log('adding setting to book', setting)
         settings.push(setting)
         setFormData({...formData, [characters]: characters })
 
+    }
+    const editSettingFunc = (setting, index) =>  {
+        settings[index] = setting;
+        setFormData({...formData, [settings]: settings, editSetting: false, addSettings: true})
     }
     const createDeadline = (deadline) =>  {
         console.log('adding deadline for book', deadline)
@@ -90,14 +107,26 @@ const CreateBook = ({ createBook, history }) => {
         setFormData({...formData, [deadlines]: deadlines })
 
     }
+    const editDeadlineFunc = (deadline, index) =>  {
+        deadlines[index] = deadline;
+        setFormData({...formData, [deadlines]: deadlines, editDeadline: false, addDeadline: true})
+    }
     const createNote = (note) =>  {
          notes.push(note)
         setFormData({...formData, [deadlines]: deadlines })
-
     }
+    const editNoteFunc = (note, index) =>  {
+        notes[index] = note;
+        setFormData({...formData, [notes]: notes, editNote: false, addNotes: true})
+    }
+
     const createTitle = (newTitle) =>  {
         console.log('adding title to book', newTitle)
         setFormData({...formData, "title": newTitle  })
+    }
+    const editTitleFunc = (updateTitle) =>  {
+        title = updateTitle;
+        setFormData({...formData, "title": updateTitle})
     }
     const createIdea = (idea) =>  {
         ideas.push(idea.idea);
@@ -138,6 +167,14 @@ const CreateBook = ({ createBook, history }) => {
             />
         )
     }
+    if(editTitle) {
+        showTitleInput = (
+            <EditTitle
+            editTitleFunc={editTitleFunc}
+            title = {title}
+            />
+        )
+    }
     if(addOutline) {
         showOutlineInput = (
             <AddOutline
@@ -161,10 +198,28 @@ const CreateBook = ({ createBook, history }) => {
             />
         )
     }
+    if (editCharacter) {
+        showOutlineInput = (
+            <EditCharacter
+            editCharacterFunc={editCharacter} 
+            characterToEdit={characters[editIndex]} 
+            editIndex = {editIndex}
+            />
+        )
+    }
     if(addSettings) {
         showSettingsInput = (
             <AddSetting
             createSetting={createSetting} 
+            />
+        )
+    }
+    if (editSetting) {
+        showOutlineInput = (
+            <EditSetting
+            editSettingFunc ={editSettingFunc} 
+            settingToEdit={settings[editIndex]} 
+            editIndex = {editIndex}
             />
         )
     }
@@ -175,10 +230,28 @@ const CreateBook = ({ createBook, history }) => {
             />
         )
     }
+    if (editDeadline) {
+        showOutlineInput = (
+            <EditDeadline
+            editDeadlineFunc={editDeadlineFunc} 
+            deadlineToEdit={deadlines[editIndex]} 
+            editIndex = {editIndex}
+            />
+        )
+    }
     if(addNotes) {
         showNotesInput = (
             <AddNote
             createNote={createNote} 
+            />
+        )
+    }
+    if (editNote) {
+        showOutlineInput = (
+            <EditNote
+            editNoteFunc={editNoteFunc} 
+            noteToEdit={notes[editIndex]} 
+            editIndex = {editIndex}
             />
         )
     }
@@ -220,13 +293,13 @@ const CreateBook = ({ createBook, history }) => {
             <input type="submit" className="btn btn-primary mb10 mt10" value="Create Book" />
             </form>
           
-            {title.length > 0 ?  <ShowTitle title={title} /> : ""}
+            {addTitle || editTitle ?  <ShowTitle title={title} /> : ""}
             {editIdea || addIdea ?  <ShowIdeas ideas={ideas} editSection={editSection} /> : ""}
             {addOutline || editOutline ?  <ShowOutlines outlines={outlines} editSection={editSection} /> : ""}
-            {characters.length > 0 ? <ShowCharacters characters={characters} editSection={editSection} /> : ""}
-            {settings.length > 0 ? <ShowSettings settings={settings} editSection={editSection} /> : ""} 
-            {deadlines.length > 0 ? <ShowDeadlines deadlines={deadlines} editSection={editSection} /> : ""} 
-            {notes.length > 0 ? <ShowNotes notes={notes} editSection={editSection} /> : ""}
+            {addCharacters || editCharacter ? <ShowCharacters characters={characters} editSection={editSection} /> : ""}
+            {addSettings || editSetting? <ShowSettings settings={settings} editSection={editSection} /> : ""} 
+            {addDeadline ||editDeadline ? <ShowDeadlines deadlines={deadlines} editSection={editSection} /> : ""} 
+            {addNotes || editNote ? <ShowNotes notes={notes} editSection={editSection} /> : ""}
         </Fragment>
     )
 }
