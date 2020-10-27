@@ -2,7 +2,7 @@ import React, { Fragment, useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 
-const ShowIdeas = ({ ideas }) => {
+const ShowIdeas = ({ ideas, editSection }) => {
     const [formData, setFormData] = useState({
         ideas: ideas, 
     })
@@ -12,7 +12,7 @@ const ShowIdeas = ({ ideas }) => {
         ideaList = ideas.map((idea, index) => (
             <Fragment key={index}>
             <li>
-            <button className='mr20 ml20 btn-link-transparent' name={index} onClick={(e) => editIdea(e)}><FontAwesomeIcon icon={faEdit} name={index} onClick={(e) => editIdea(e)} /></button>
+            <button className='mr20 ml20 btn-link-transparent' name={index} onClick={(e) => editIdea(e)}><FontAwesomeIcon icon={faEdit} /></button>
             <button className='mr20 btn-link-transparent' name={index} onClick={(e) => deleteIdea(e)}><FontAwesomeIcon icon={faTrash} /></button>
             {idea}
             </li>
@@ -21,7 +21,7 @@ const ShowIdeas = ({ ideas }) => {
     } 
     
     const editIdea = (e) => {
-        console.log(e.currentTarget.name)
+        editSection("Idea", e.currentTarget.name)
     }
     const deleteIdea = (e) => {
         const deleteIndex = e.currentTarget.name;

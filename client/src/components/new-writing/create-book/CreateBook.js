@@ -9,6 +9,7 @@ import AddTitle from './AddTitle';
 import AddIdea from './AddIdea';
 import AddDeadline from './AddDeadline';
 import AddNote from './AddNote';
+import EditIdea from './EditIdea';
 import ShowCharacters from './ShowCharacters';
 import ShowSettings from './ShowSettings';
 import ShowDeadlines from './ShowDeadlines';
@@ -27,8 +28,10 @@ const CreateBook = ({ createBook, history }) => {
         settings: [],
         deadlines:[],
         notes: [],
+        editIndex : '',
         content: "",
         addIdea : true,
+        editIdea : false,
         addTitle: false,
         addOutline: false,
         addCharacters: false,
@@ -37,16 +40,15 @@ const CreateBook = ({ createBook, history }) => {
         addNotes: false, 
     })
 
-    let { ideas, title, outlines, characters, settings, deadlines, notes, addIdea, addTitle, addOutline, addCharacters, addSettings, addDeadline, addNotes  } = formData;
+    let { ideas, title, outlines, characters, settings, deadlines, notes, addIdea, addTitle, editIdea, addOutline, addCharacters, addSettings, addDeadline, addNotes, editIndex  } = formData;
 
     const onCLickAdd = e => {
         let element = document.getElementsByClassName("active")
         element[0].classList.remove("active");
-        console.log(e.target)
         e.currentTarget.className += " active";
         const boolValue = e.target.value  == "true" ? true : false;
         console.log(e.target.name, e.target.value, !boolValue)
-        setFormData({...formData, addIdea: false, addTitle: false, addOutline: false, addCharacters: false, addSettings: false, addDeadline: false, addNotes: false, [e.target.name]: !boolValue })
+        setFormData({...formData, addIdea: false, editIdea: false,  addTitle: false, addOutline: false, addCharacters: false, addSettings: false, addDeadline: false, addNotes: false, [e.target.name]: !boolValue })
     }
     const onChange = e => setFormData({...formData, [e.target.name]: e.target.value })
     const onSubmit = async e => {
@@ -92,15 +94,34 @@ const CreateBook = ({ createBook, history }) => {
         setFormData({...formData, "title": newTitle  })
     }
     const createIdea = (idea) =>  {
-        ideas.push(idea.idea)
-       setFormData({...formData, [ideas]: ideas})
-
+        ideas.push(idea.idea);
+        setFormData({...formData, [ideas]: ideas})
    }
-    let showIdeasInput, showTitleInput, showOutlineInput, showCharactersInput, showSettingsInput, showDeadlinesInput, showNotesInput = <div></div>
+   const editIdeas = (idea, index) =>  {
+        ideas[index] = idea.idea;
+        setFormData({...formData, [ideas]: ideas, editIdea: false, addIdea: true})
+    }
+
+    const editSection = (section, index) =>  {
+        const editSection = "edit"+section;
+        editIndex = index;
+        setFormData({...formData, addIdea: false, editIdea: false,  addTitle: false, addOutline: false, addCharacters: false, addSettings: false, addDeadline: false, addNotes: false, editIndex: editIndex , [editSection]: true })
+    }
+
+    let showIdeasInput, showTitleInput, showOutlineInput, showCharactersInput, showSettingsInput, showDeadlinesInput, showNotesInput  = <div></div>
     if(addIdea) {
         showIdeasInput = (
             <AddIdea
             createIdea={createIdea} 
+            />
+        )
+    } 
+    if (editIdea) {
+        showIdeasInput = (
+            <EditIdea
+            editIdeas={editIdeas} 
+            ideaToEdite={ideas[editIndex]} 
+            editIndex = {editIndex}
             />
         )
     }
@@ -185,7 +206,7 @@ const CreateBook = ({ createBook, history }) => {
             </form>
           
             {title.length > 0 ?  <ShowTitle title={title} /> : ""}
-            {ideas.length > 0 ?  <ShowIdeas ideas={ideas} /> : ""}
+            {editIdea || addIdea ?  <ShowIdeas ideas={ideas} editSection={editSection} /> : ""}
             {outlines.length > 0 ?  <ShowOutlines outlines={outlines} /> : ""}
             {characters.length > 0 ? <ShowCharacters characters={characters} /> : ""}
             {settings.length > 0 ? <ShowSettings settings={settings} /> : ""} 
