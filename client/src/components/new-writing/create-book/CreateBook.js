@@ -1,59 +1,64 @@
 import React, { Fragment, useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../../common/Spinner';
 import AddCharacter from './AddCharacter';
 import AddSetting from './AddSetting';
 import AddOutline from './AddOutline';
+import AddTitle from './AddTitle';
+import AddIdea from './AddIdea';
 import AddDeadline from './AddDeadline';
 import AddNote from './AddNote';
+import EditIdea from './EditIdea';
 import ShowCharacters from './ShowCharacters';
 import ShowSettings from './ShowSettings';
 import ShowDeadlines from './ShowDeadlines';
 import ShowOutlines from './ShowOutlines';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import ShowTitle from './ShowTitle';
+import ShowIdeas from './ShowIdeas';
 import ShowNotes from './ShowNotes';
+import { createBook } from '../../../actions/bookActions';
 
-
-
-const CreateBook = ({ createProfile, history }) => {
+const CreateBook = ({ createBook, history }) => {
     const [formData, setFormData] = useState({
-        idea: "",
+        ideas: [],
         title: "",
         outlines: [],
         characters: [],
         settings: [],
-        goals: [],
         deadlines:[],
         notes: [],
-        chapters: [],
+        editIndex : '',
         content: "",
-        addIdea : false,
+        addIdea : true,
+        editIdea : false,
         addTitle: false,
         addOutline: false,
         addCharacters: false,
         addSettings: false, 
-        addGoals: false, 
         addDeadline: false,
         addNotes: false, 
-        addChapters: false, 
     })
 
-    const { idea, title, outlines, characters, settings, goals, deadlines, notes, chapters, content, addIdea, addTitle, addOutline, addCharacters, addSettings, addGoals, addDeadline, addNotes, addChapters  } = formData;
+    let { ideas, title, outlines, characters, settings, deadlines, notes, addIdea, addTitle, editIdea, addOutline, addCharacters, addSettings, addDeadline, addNotes, editIndex  } = formData;
 
-    const onChangeAdd = e => {
+    const onCLickAdd = e => {
+        let element = document.getElementsByClassName("active")
+        element[0].classList.remove("active");
+        e.currentTarget.className += " active";
         const boolValue = e.target.value  == "true" ? true : false;
         console.log(e.target.name, e.target.value, !boolValue)
-        setFormData({...formData, [e.target.name]: !boolValue })
+        setFormData({...formData, addIdea: false, editIdea: false,  addTitle: false, addOutline: false, addCharacters: false, addSettings: false, addDeadline: false, addNotes: false, [e.target.name]: !boolValue })
     }
     const onChange = e => setFormData({...formData, [e.target.name]: e.target.value })
     const onSubmit = async e => {
         e.preventDefault();
-        console.log('submitting new book', formData)
+        console.log('creating book', formData)
+        
+        createBook(formData, history, false);
 
     }
+
     const createOutlineSection = (outline) =>  {
         console.log('adding outline for book', outline)
         outlines.push(outline)
@@ -84,23 +89,47 @@ const CreateBook = ({ createProfile, history }) => {
         setFormData({...formData, [deadlines]: deadlines })
 
     }
-    let showIdesInput, showTitleInput, showOutlineInput, showCharactersInput, showSettingsInput, showGoalsInput, showDeadlinesInput, showNotesInput, showChaptersInput  = <div></div>
+    const createTitle = (newTitle) =>  {
+        console.log('adding title to book', newTitle)
+        setFormData({...formData, "title": newTitle  })
+    }
+    const createIdea = (idea) =>  {
+        ideas.push(idea.idea);
+        setFormData({...formData, [ideas]: ideas})
+   }
+   const editIdeas = (idea, index) =>  {
+        ideas[index] = idea.idea;
+        setFormData({...formData, [ideas]: ideas, editIdea: false, addIdea: true})
+    }
+
+    const editSection = (section, index) =>  {
+        const editSection = "edit"+section;
+        editIndex = index;
+        setFormData({...formData, addIdea: false, editIdea: false,  addTitle: false, addOutline: false, addCharacters: false, addSettings: false, addDeadline: false, addNotes: false, editIndex: editIndex , [editSection]: true })
+    }
+
+    let showIdeasInput, showTitleInput, showOutlineInput, showCharactersInput, showSettingsInput, showDeadlinesInput, showNotesInput  = <div></div>
     if(addIdea) {
-        showIdesInput = (
-            <Fragment>
-                <div className="form-group form-group-alt">
-                    <input type="text" placeholder="Idea/Theme" name="idea" value={idea} onChange={e => onChange(e)}  />
-                </div>
-            </Fragment>
+        showIdeasInput = (
+            <AddIdea
+            createIdea={createIdea} 
+            />
+        )
+    } 
+    if (editIdea) {
+        showIdeasInput = (
+            <EditIdea
+            editIdeas={editIdeas} 
+            ideaToEdite={ideas[editIndex]} 
+            editIndex = {editIndex}
+            />
         )
     }
     if(addTitle) {
         showTitleInput = (
-            <Fragment>
-                <div className="form-group form-group-alt">
-                    <input type="text" placeholder="Title" name="title" value={title} onChange={e => onChange(e)}  />
-                </div>
-            </Fragment>
+            <AddTitle
+            createTitle={createTitle} 
+            />
         )
     }
     if(addOutline) {
@@ -124,13 +153,6 @@ const CreateBook = ({ createProfile, history }) => {
             />
         )
     }
-    // if(addGoals) {
-    //     showGoalsInput = (
-    //         <addGoals
-    //         createDeadline={createDeadline} 
-    //         />
-    //     )
-    // }
     if(addDeadline) {
         showDeadlinesInput = (
             <AddDeadline
@@ -145,152 +167,60 @@ const CreateBook = ({ createProfile, history }) => {
             />
         )
     }
-    if(addChapters) {
-        showChaptersInput = (
-            <Fragment>
-                <div className="form-group form-group-alt">
-                    <input type="text" placeholder="Chapters" name="chapters" value={chapters} onChange={e => onChange(e)}  />
-                </div>
-            </Fragment>
-        )
-    }
-
     return (
         <Fragment>
             <h1 className='large text-primary '>Let Us Get Organized</h1>
             <span className='small '>Add as much or as little as you like. This can be updated later.</span>
-                <form className="form" onSubmit={e => onSubmit(e)}>
-                <div className="col-6 col-sm-3 form-check">
-                    <input
-                        type="checkbox"
-                        className="form-check-input"
-                        name="addIdea"
-                        value={addIdea}
-                        checked={addIdea}
-                        onChange={e => onChangeAdd(e)}
-                        id="addIdea"
-                    />
-                    <label htmlFor="addIdea" className="form-check-label">Add Idea/Theme</label>
-                </div>
-                {showIdesInput}
-                <div className="col-6 col-sm-3 form-check">
-                    <input
-                        type="checkbox"
-                        className="form-check-input"
-                        name="addTitle"
-                        value={addTitle}
-                        checked={addTitle}
-                        onChange={e => onChangeAdd(e)}
-                        id="addTitle"
-                    />
-                    <label htmlFor="addTitle" className="form-check-label">Add Title Idea</label>
-                </div>
-                {showTitleInput}
-                <div className="col-6 col-sm-3 form-check">
-                    <input
-                        type="checkbox"
-                        className="form-check-input"
-                        name="addOutline"
-                        value={addOutline}
-                        checked={addOutline}
-                        onChange={e => onChangeAdd(e)}
-                        id="addOutline"
-                    />
-                    <label htmlFor="addOutline" className="form-check-label">Add Outline Section</label>
-                </div>
-                {outlines.length > 0 ?  <ShowOutlines outlines={outlines} /> : ""}
-                {showOutlineInput}
-                <div className="col-6 col-sm-3 form-check">
-                    <input
-                        type="checkbox"
-                        className="form-check-input"
-                        name="addCharacters"
-                        value={addCharacters}
-                        checked={addCharacters}
-                        onChange={e => onChangeAdd(e)}
-                        id="addCharacters"
-                    />
-                    <label htmlFor="addCharacters" className="form-check-label">Add Characters</label>
-                </div>
-                {characters.length > 0 ? <ShowCharacters characters={characters} /> : ""}
-                {showCharactersInput}
-                <div className="col-6 col-sm-3 form-check">
-                    <input
-                        type="checkbox"
-                        className="form-check-input"
-                        name="addSettings"
-                        value={addSettings}
-                        checked={addSettings}
-                        onChange={e => onChangeAdd(e)}
-                        id="addSettings"
-                    />
-                    <label htmlFor="addSettings" className="form-check-label">Add Settings/Locations</label>
-                </div> 
-                {settings.length > 0 ? <ShowSettings settings={settings} /> : ""}  
-                {showSettingsInput}
-                {/* <div className="col-6 col-sm-3 form-check">
-                    <input
-                        type="checkbox"
-                        className="form-check-input"
-                        name="addGoals"
-                        value={addGoals}
-                        checked={addGoals}
-                        onChange={e => onChangeAdd(e)}
-                        id="addGoals"
-                    />
-                    <label htmlFor="addGoals" className="form-check-label">Add Goals</label>
-                </div>  */}
-                {showGoalsInput}
-                <div className="col-6 col-sm-3 form-check">
-                    <input
-                        type="checkbox"
-                        className="form-check-input"
-                        name="addDeadline"
-                        value={addDeadline}
-                        checked={addDeadline}
-                        onChange={e => onChangeAdd(e)}
-                        id="addDeadline"
-                    />
-                    <label htmlFor="addDeadline" className="form-check-label">Add Deadline(s)</label>
-                </div>
-                {deadlines.length > 0 ? <ShowDeadlines deadlines={deadlines} /> : ""}  
-                {showDeadlinesInput}
-                <div className="col-6 col-sm-3 form-check">
-                    <input
-                        type="checkbox"
-                        className="form-check-input"
-                        name="addNotes"
-                        value={addNotes}
-                        checked={addNotes}
-                        onChange={e => onChangeAdd(e)}
-                        id="addNotes"
-                    />
-                    <label htmlFor="addNotes" className="form-check-label">Add Notes/Research</label>
-                </div>
-                {notes.length > 0 ? <ShowNotes notes={notes} /> : ""}
-                {showNotesInput}
-                <div className="col-6 col-sm-3 form-check mb-4">
-                    <input
-                        type="checkbox"
-                        className="form-check-input"
-                        name="addChapters"
-                        value={addChapters}
-                        checked={addChapters}
-                        onChange={e => onChangeAdd(e)}
-                        id="addChapters"
-                    />
-                    <label htmlFor="addChapters" className="form-check-label">Add Chapters</label>
-                </div>
-                {showChaptersInput}
-                <input type="submit" className="btn btn-primary" value="Create Book" />
-                </form>
+            <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" name='addIdea' value='addIdea' onClick={e => onCLickAdd(e)}>Add Ideas/Themes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" name='addTitle' value='addTitle' onClick={e => onCLickAdd(e)}>Add Title</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" name='addOutline' value='addOutline' onClick={e => onCLickAdd(e)}>Add Outline Sections</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" name='addCharacters' value='addCharacters' onClick={e => onCLickAdd(e)}>Add Characters</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" name='addSettings' value='addSettings' onClick={e => onCLickAdd(e)}>Add Settings/Locations</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" name='addDeadline' value='addDeadline' onClick={e => onCLickAdd(e)}>Add Deadline(s)</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" name='addNotes' value='addNotes' onClick={e => onCLickAdd(e)}>Add Notes</a>
+            </li>
+            </ul>
+            {showIdeasInput}
+            {showTitleInput}
+            {showOutlineInput}
+            {showCharactersInput}
+            {showSettingsInput}
+            {showDeadlinesInput}
+            {showNotesInput}
+            <form className="form" onSubmit={e => onSubmit(e)}>
+            <input type="submit" className="btn btn-primary mb10 mt10" value="Create Book" />
+            </form>
+          
+            {title.length > 0 ?  <ShowTitle title={title} /> : ""}
+            {editIdea || addIdea ?  <ShowIdeas ideas={ideas} editSection={editSection} /> : ""}
+            {outlines.length > 0 ?  <ShowOutlines outlines={outlines} /> : ""}
+            {characters.length > 0 ? <ShowCharacters characters={characters} /> : ""}
+            {settings.length > 0 ? <ShowSettings settings={settings} /> : ""} 
+            {deadlines.length > 0 ? <ShowDeadlines deadlines={deadlines} /> : ""} 
+            {notes.length > 0 ? <ShowNotes notes={notes} /> : ""}
         </Fragment>
     )
 }
 
 CreateBook.propTypes = {
-
+    createBook: PropTypes.func.isRequired,
 }
 
-export default CreateBook
+export default connect(null, {createBook})(CreateBook);
+
+
 

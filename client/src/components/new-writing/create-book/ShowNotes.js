@@ -14,6 +14,7 @@ const ShowNotes = ({ notes }) => {
     return (
         <div className='container container-custom'>
             <div className='table-responsive'>
+            <h5 className='planningSection'><stong>Notes</stong></h5>
             <table className='table'>
                 <thead>
                     <tr>
