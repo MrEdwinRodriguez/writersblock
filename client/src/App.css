@@ -134,7 +134,12 @@ img {
 .my-3 {
   margin: 3rem 0;
 }
-
+.mr20 {
+  margin-right: 20px; 
+}
+.ml20 {
+  margin-left: 20px; 
+}
 .ml20 {
   margin-left: 20px;
 }
@@ -146,6 +151,9 @@ img {
 }
 .mt20 {
   margin-top: 20px;
+}
+.mb20 {
+  margin-bottom: 20px;
 }
 .ml40 {
   margin-left: 40px;
@@ -318,6 +326,36 @@ img {
 
 .formSection {
   margin-bottom: 0px !important;
+}
+
+.list-disc {
+  list-style-type: disc;
+}
+
+.list-alpha {
+  list-style-type: lower-alpha  !important;
+}
+
+.list-roman {
+  list-style-type: upper-roman;
+}
+
+ol {
+  list-style-position: inside
+}
+
+.planningSection{
+  text-align: center;
+  text-decoration: underline;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.active {
+  background-color: var(--dark-color) !important;
+  color:#fff !important;
 }
 
 .wrapForm {

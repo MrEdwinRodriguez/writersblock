@@ -31,8 +31,6 @@ const AddOutline = ({ createOutlineSection }) => {
         });
     }
     const onChange = e => {
-        console.log(e.target.name)
-        console.log(e.target.key)
         setFormData({...formData, [e.target.name]: e.target.value });
     }
     const onChangeSubject = e => {
@@ -60,11 +58,7 @@ const AddOutline = ({ createOutlineSection }) => {
         const splitName = e.target.name.split("_");
         const subjectIndex = splitName[1];
         const pointIndex = splitName[3];
-        console.log(subjectIndex, pointIndex)
-        console.log(e.target.value)
         subjects[subjectIndex].points[pointIndex].text = e.target.value;
-
-
         setFormData({...formData, [subjects]: subjects });
     }
 
