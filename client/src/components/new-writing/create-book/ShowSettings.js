@@ -13,13 +13,13 @@ const ShowSettings = ({ settings, editSection }) => {
                 <td width="25%">{setting.location.length > 1800 ? setting.location.slice(0, 180) + "..." : setting.location}</td>
                 <td width="40%">{setting.description.length > 180 ? setting.description.slice(0, 180)+".....": setting.description}</td>
                 <td width="25%">{setting.timeFrame.length > 180 ? setting.timeFrame.slice(0, 180)+"....." : setting.timeFrame}</td>
-                <td width="5%"><FontAwesomeIcon icon={faEdit} name={index} onClick={(e) => editCharacter(e)} /></td>
+                <td width="5%"><FontAwesomeIcon icon={faEdit} name={index} onClick={(e) => editSetting(e)} /></td>
                 <td width="5%"><FontAwesomeIcon icon={faTrash} name={index} onClick={(e) => deleteCharacter(e)} /></td>
             </tr>
 
         ))
     } 
-    const editCharacter = (e) => {
+    const editSetting = (e) => {
         editSection("Setting", e.currentTarget.getAttribute('name'))
     }
     const deleteCharacter = (e) => {
