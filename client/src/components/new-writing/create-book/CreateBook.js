@@ -201,7 +201,7 @@ const CreateBook = ({ createBook, history }) => {
     if (editCharacter) {
         showOutlineInput = (
             <EditCharacter
-            editCharacterFunc={editCharacter} 
+            editCharacterFunc={editCharacterFunc} 
             characterToEdit={characters[editIndex]} 
             editIndex = {editIndex}
             />
