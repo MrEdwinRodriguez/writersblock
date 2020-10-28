@@ -39,7 +39,7 @@ const EditCharacter = ({ editCharacterFunc, characterToEdit, editIndex }) => {
 
     return (
         <div className='wrapForm'>
-            <h5 className='large text-primary formSection'>Add Character</h5>
+            <h5 className='large text-primary formSection'>Edit Character</h5>
             <span className='small '>Add as much or as little as you like. This can be updated later.</span>
                 <div className="form">
                     <div className="form-group form-group-alt">
