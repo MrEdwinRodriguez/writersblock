@@ -1,4 +1,6 @@
 import React, { Fragment, useState} from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const ShowDeadlines = ({ deadlines }) => {
     var deadlineList = <tr><td>You do not have any deadlines.</td></tr>;

@@ -16,8 +16,8 @@ const ShowCharacters = ({ characters, editSection }) => {
                 <td width="20%">{character.appearance.length > 90 ? character.appearance.slice(0, 90) + "..." : character.appearance}</td>
                 <td width="20%">{character.personality.length > 90 ? character.personality.slice(0, 90)+".....": character.personality}</td>
                 <td width="20%">{character.characterNotes.length > 90 ? character.characterNotes.slice(0, 90)+"....." : character.characterNotes}</td>
-                <th width="3%" ><FontAwesomeIcon icon={faEdit} name={index} onClick={(e) => editCharacter(e)} /></th>
-                <th width="2%"><FontAwesomeIcon icon={faTrash} name={index} onClick={(e) => deleteCharacter(e)} /></th>
+                <td width="3%" ><FontAwesomeIcon icon={faEdit} name={index} onClick={(e) => editCharacter(e)} /></td>
+                <td width="2%"><FontAwesomeIcon icon={faTrash} name={index} onClick={(e) => deleteCharacter(e)} /></td>
             </tr>
 
         ))
