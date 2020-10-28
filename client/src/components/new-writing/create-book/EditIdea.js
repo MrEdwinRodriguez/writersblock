@@ -1,8 +1,4 @@
 import React, { Fragment, useState} from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-
-
 
 const EditIdea = ({ editIdeas, ideaToEdite, editIndex  }) => {
 
@@ -10,7 +6,6 @@ const EditIdea = ({ editIdeas, ideaToEdite, editIndex  }) => {
         idea: ideaToEdite,
     })
     const { idea } = formData;
-    console.log(editIndex )
     const onSubmitIdea = async e => {
         e.preventDefault();
         if(idea == "" ) {
