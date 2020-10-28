@@ -1,10 +1,10 @@
 import React, { Fragment, useState} from 'react';
 
-const AddDeadline = ({ createDeadline }) => {
+const EditDeadline = ({ editDeadlineFunc, deadlineToEdit, editIndex }) => {
     const [formData, setFormData] = useState ({
-        isHardDeadline: false,
-        date: "",
-        description: ""
+        isHardDeadline: deadlineToEdit.isHardDeadline,
+        date: deadlineToEdit.date,
+        description: deadlineToEdit.description
     })
     const { isHardDeadline, date, description} = formData;
 
@@ -18,7 +18,7 @@ const AddDeadline = ({ createDeadline }) => {
             alert ('A description is required to create a deadline.')
             return false;
         }
-        createDeadline(formData);
+        editDeadlineFunc(formData, editIndex);
         setFormData({
             isHardDeadline: false,
             date: "",
@@ -64,10 +64,10 @@ const AddDeadline = ({ createDeadline }) => {
                         />
                         <label htmlFor="hardDeadline" className="form-check-label">Is this a hard deadline? </label>
                     </div>
-                    <input type="submit" className="btn btn-primary" value="Create Deadline" onClick={e => onSubmitDeadline(e)}/>
+                    <input type="submit" className="btn btn-primary" value="Edit Deadline" onClick={e => onSubmitDeadline(e)}/>
                 </div>
         </div>
     )
 }
 
-export default AddDeadline;
+export default EditDeadline;

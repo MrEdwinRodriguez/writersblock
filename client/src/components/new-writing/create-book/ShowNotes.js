@@ -1,4 +1,6 @@
 import React, { Fragment, useState} from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const ShowNotes = ({ notes }) => {
     var notesList = <tr><td>You have not added any notes.</td></tr>;
