@@ -33,7 +33,7 @@ const EditDeadline = ({ editDeadlineFunc, deadlineToEdit, editIndex }) => {
 
     return (
         <div className='wrapForm'>
-            <h5 className='large text-primary formSection'>Add Deadlines</h5>
+            <h5 className='large text-primary formSection'>Edit Deadlines</h5>
             <span className='small '>Add as much or as little as you like. This can be updated later.</span>
                 <div className="form">
                     <div className="form-group form-group-alt">
