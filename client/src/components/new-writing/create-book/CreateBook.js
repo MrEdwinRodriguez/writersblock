@@ -138,9 +138,15 @@ const CreateBook = ({ createBook, history }) => {
     }
 
     const editSection = (section, index) =>  {
-        const editSection = "edit"+section;
-        editIndex = index;
-        setFormData({...formData, addIdea: false, editIdea: false,  addTitle: false, addOutline: false, editOutline: false,  addCharacters: false, addSettings: false, addDeadline: false, addNotes: false, editIndex: editIndex , [editSection]: true })
+        if ( section == "Title") {
+            const editSection = "editTitle";
+            setFormData({...formData, addIdea: false, editTitle: false, editIdea: false,  addTitle: false, addOutline: false, editOutline: false,  addCharacters: false, addSettings: false, addDeadline: false, addNotes: false , [editSection]: true })
+
+        } else {
+            const editSection = "edit"+section;
+            editIndex = index;
+            setFormData({...formData, addIdea: false, editTitle: false,  editIdea: false,  addTitle: false, addOutline: false, editOutline: false,  addCharacters: false, addSettings: false, addDeadline: false, addNotes: false, editIndex: editIndex , [editSection]: true })
+        }
     }
 
     let showIdeasInput, showTitleInput, showOutlineInput, showCharactersInput, showSettingsInput, showDeadlinesInput, showNotesInput  = <div></div>
@@ -171,7 +177,7 @@ const CreateBook = ({ createBook, history }) => {
         showTitleInput = (
             <EditTitle
             editTitleFunc={editTitleFunc}
-            title = {title}
+            existingTitle = {title}
             />
         )
     }
@@ -293,7 +299,7 @@ const CreateBook = ({ createBook, history }) => {
             <input type="submit" className="btn btn-primary mb10 mt10" value="Create Book" />
             </form>
           
-            {addTitle || editTitle ?  <ShowTitle title={title} /> : ""}
+            {addTitle || editTitle ?  <ShowTitle title={title} editSection={editSection} /> : ""}
             {editIdea || addIdea ?  <ShowIdeas ideas={ideas} editSection={editSection} /> : ""}
             {addOutline || editOutline ?  <ShowOutlines outlines={outlines} editSection={editSection} /> : ""}
             {addCharacters || editCharacter ? <ShowCharacters characters={characters} editSection={editSection} /> : ""}

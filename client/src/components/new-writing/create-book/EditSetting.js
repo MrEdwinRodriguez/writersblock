@@ -29,7 +29,7 @@ const EditSetting = ({ editSettingFunc, settingToEdit, editIndex }) => {
 
     return (
         <div className='wrapForm'>
-            <h5 className='large text-primary formSection'>Add Setting</h5>
+            <h5 className='large text-primary formSection'>Edit Setting</h5>
             <span className='small '>Add as much or as little as you like. This can be updated later.</span>
                 <div className="form">
                     <div className="form-group form-group-alt">
